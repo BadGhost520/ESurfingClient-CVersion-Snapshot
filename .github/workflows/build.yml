@@ -95,7 +95,7 @@ jobs:
         cp bin/packages/mipsel_24kc/base/esurfingclient_*.ipk ../artifacts/esurfingclient-mipsel_24kc-openwrt-${{ matrix.openwrt_version.version }}-1.0.1.ipk
         
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: esurfingclient-openwrt-${{ matrix.openwrt_version.version }}
         path: artifacts/*.ipk
