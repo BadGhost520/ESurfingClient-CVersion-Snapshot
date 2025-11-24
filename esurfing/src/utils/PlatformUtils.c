@@ -14,6 +14,9 @@
 #include "../headFiles/Constants.h"
 #include "../headFiles/States.h"
 #include "../headFiles/utils/PlatformUtils.h"
+
+#include <process.h>
+
 #include "../headFiles/Options.h"
 #include "../headFiles/utils/Logger.h"
 
@@ -429,4 +432,37 @@ void createBash()
         return;
     }
     LOG_INFO("一键配置脚本创建成功, 位于: %s", filename);
+}
+
+#ifdef _WIN32
+static unsigned __stdcall thread_wrapper(void *arg) {
+    void **args = (void **)arg;
+    void *(*thread_func)(void *) = (void *(*)(void *))args[0];
+    void *thread_arg = args[1];
+    free(args);
+    thread_func(thread_arg);
+    return 0;
+}
+#endif
+
+thread_handle_t create_thread(void *(*thread_func)(void *), void *arg) {
+#ifdef _WIN32
+    void **wrapper_args = malloc(sizeof(void *) * 2);
+    wrapper_args[0] = thread_func;
+    wrapper_args[1] = arg;
+    return (HANDLE)_beginthreadex(NULL, 0, thread_wrapper, wrapper_args, 0, NULL);
+#else
+    thread_handle_t thread;
+    pthread_create(&thread, NULL, thread_func, arg);
+    return thread;
+#endif
+}
+
+void join_thread(thread_handle_t thread) {
+#ifdef _WIN32
+    WaitForSingleObject(thread, INFINITE);
+    CloseHandle(thread);
+#else
+    pthread_join(thread, NULL);
+#endif
 }

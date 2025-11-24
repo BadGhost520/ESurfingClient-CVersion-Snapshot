@@ -1,0 +1,62 @@
+.top-main {
+    width: 200px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.top-main a {
+    text-decoration: none;
+    color: black;
+}
+
+.top-main-sec {
+    width: 200px;
+    margin: 0 auto;
+}
+
+.top-logo {
+    display: flex;
+    width: 200px;
+    height: 70px;
+}
+
+.top-icon {
+    margin: auto 10px 5px 15px;
+    width: 50px;
+    height: 50px;
+}
+
+.top-text {
+    margin: auto 5px 11px 3px;
+    font-size: 30px;
+    font-family: 'JetBrains Mono', system-ui;
+    font-weight: bold;
+}
+
+.top-navs {
+    display: flex;
+    flex-direction: column;
+}
+
+.top-navs .nav {
+    width: 180px;
+    margin: 0 auto;
+    font-size: 20px;
+    line-height: 60px;
+    font-family: 'JetBrains Mono', system-ui;
+    text-align: left;
+    transition: background-color 0.5s ease;
+    border-radius: 20px;
+    display: flex;
+}
+
+.top-navs .nav:hover {
+    background-color: #DBDBDB;
+}
+
+.nav-icon { 
+    width: 30px;
+    height: 30px;
+    margin: auto 15px auto 20px;
+}

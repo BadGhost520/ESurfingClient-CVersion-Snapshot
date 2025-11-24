@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    background-color: #FAFFFF;
+    display: flex;
+}
+
+hr {
+    width: 180px;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.on {
+    background-color: #DBDBDB;
+    font-weight: bold;
+}
+
+.blueblock {
+    background-color: #00C6FF;
+    width: 6px;
+    height: 20px;
+    border-radius: 2px;
+    margin: auto 5px;
+}

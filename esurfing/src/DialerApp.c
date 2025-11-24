@@ -10,6 +10,7 @@
 #include "headFiles/utils/Logger.h"
 #include "headFiles/utils/PlatformUtils.h"
 #include "headFiles/utils/Shutdown.h"
+#include "mongoose/WebServer.h"
 
 int main(const int argc, char* argv[]) {
     int opt;
@@ -93,6 +94,9 @@ int main(const int argc, char* argv[]) {
         initShutdown();
         initConstants();
         refreshStates();
+
+        web_server_thread = start_web_server("http://0.0.0.0:8000");
+
         while (isRunning)
         {
             run();

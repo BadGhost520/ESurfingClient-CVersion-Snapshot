@@ -8,6 +8,14 @@
 
 #include <stdint.h>
 
+#ifdef _WIN32
+#include <windows.h>
+typedef HANDLE thread_handle_t;
+#else
+#include <pthread.h>
+typedef pthread_t thread_handle_t;
+#endif
+
 typedef struct {
     unsigned char* data;
     size_t length;
@@ -96,5 +104,19 @@ char* cleanCDATA(const char* text);
  * OpenWrt 创建一键配置脚本
  */
 void createBash();
+
+/**
+ * 创建线程函数
+ * @param thread_func 线程函数
+ * @param arg 线程参数
+ * @return 线程句柄
+ */
+thread_handle_t create_thread(void *(*thread_func)(void *), void *arg);
+
+/**
+ * 等待线程结束函数
+ * @param thread 线程句柄
+ */
+void join_thread(thread_handle_t thread);
 
 #endif // PLATFORMUTILS_H

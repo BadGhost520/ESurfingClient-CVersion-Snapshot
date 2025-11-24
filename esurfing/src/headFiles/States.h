@@ -5,6 +5,8 @@
 #ifndef ESURFINGCLIENT_STATES_H
 #define ESURFINGCLIENT_STATES_H
 
+#include "utils/PlatformUtils.h"
+
 extern char* clientId;
 extern char* algoId;
 extern char* macAddress;
@@ -21,6 +23,8 @@ extern char* domain;
 extern char* area;
 extern char* ticketUrl;
 extern char* authUrl;
+
+extern thread_handle_t web_server_thread;
 
 /**
  * 刷新状态函数

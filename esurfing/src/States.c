@@ -25,6 +25,8 @@ char* area;
 char* ticketUrl;
 char* authUrl;
 
+thread_handle_t web_server_thread;
+
 void refreshStates()
 {
     if (clientId)
