@@ -1,0 +1,46 @@
+.log-content {
+    width: 87%;
+    height: 87%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 300;
+}
+
+.log-content.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 300;
+}
+
+.log-scrollbox {
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    width: auto;
+    height: auto;
+    padding: 20px;
+    color: white;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: black;
+}
+
+.logs {
+    font-family: 'JetBrainsMono', serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}

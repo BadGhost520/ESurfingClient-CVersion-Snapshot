@@ -1,12 +1,30 @@
 body {
     margin: 0;
     background-color: #FAFFFF;
+}
+
+.main {
     display: flex;
 }
 
-hr {
-    width: 180px;
-    border-color: rgba(0, 0, 0, 0.1);
+.content-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 300;
+}
+
+.title {
+    width: 255px;
+    display: flex;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 20px;
+}
+
+.title-text {
+    font-family: "JetBrains Mono", system-ui;
+    margin: auto 5px;
 }
 
 .on {

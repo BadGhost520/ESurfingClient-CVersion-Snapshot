@@ -1,46 +1,47 @@
-.top-main {
-    width: 200px;
+.sidebar {
+    width: 250px;
     height: 100vh;
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-.top-main a {
+.sidebar a {
     text-decoration: none;
     color: black;
 }
 
-.top-main-sec {
-    width: 200px;
+.sidebar hr {
+    width: 180px;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-sec {
+    width: 250px;
     margin: 0 auto;
 }
 
-.top-logo {
+.sidebar-logo {
     display: flex;
-    width: 200px;
+    width: 250px;
     height: 70px;
+    cursor: pointer;
 }
 
-.top-icon {
-    margin: auto 10px 5px 15px;
-    width: 50px;
-    height: 50px;
-}
-
-.top-text {
-    margin: auto 5px 11px 3px;
+.sidebar-text {
+    margin: 25px auto;
+    line-height: 30px;
     font-size: 30px;
     font-family: 'JetBrains Mono', system-ui;
     font-weight: bold;
 }
 
-.top-navs {
+.sidebar-navs {
     display: flex;
     flex-direction: column;
 }
 
-.top-navs .nav {
-    width: 180px;
+.sidebar-navs .nav {
+    width: 230px;
     margin: 0 auto;
     font-size: 20px;
     line-height: 60px;
@@ -51,8 +52,9 @@
     display: flex;
 }
 
-.top-navs .nav:hover {
+.sidebar-navs .nav:hover {
     background-color: #DBDBDB;
+    cursor: pointer;
 }
 
 .nav-icon { 
