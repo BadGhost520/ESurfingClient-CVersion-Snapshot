@@ -18,6 +18,7 @@ char* acIp;
 int isRunning = 0;
 int isLogged = 0;
 int isInitialized = 0;
+int isWebserverRunning = 0;
 
 long long authTime = 0;
 
@@ -27,7 +28,7 @@ char* area;
 char* ticketUrl;
 char* authUrl;
 
-thread_handle_t web_server_thread;
+threadHandle webServerInstance;
 
 void refreshStates()
 {

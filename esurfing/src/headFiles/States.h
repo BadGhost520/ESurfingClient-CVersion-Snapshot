@@ -17,6 +17,7 @@ extern char* acIp;
 extern int isRunning;
 extern int isLogged;
 extern int isInitialized;
+extern int isWebserverRunning;
 
 extern long long authTime;
 
@@ -26,7 +27,7 @@ extern char* area;
 extern char* ticketUrl;
 extern char* authUrl;
 
-extern thread_handle_t web_server_thread;
+extern threadHandle webServerInstance;
 
 /**
  * 刷新状态函数

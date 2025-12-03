@@ -10,13 +10,13 @@
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/Session.h"
 #include "../headFiles/Client.h"
-#include "../mongoose/WebServer.h"
+#include "../headFiles/webserver/WebServer.h"
 
 void performCleanup()
 {
     LOG_DEBUG("执行关闭函数");
-    stop_web_server();
-    join_thread(web_server_thread);
+    stopWebServer();
+    waitThreadStop(webServerInstance);
     if (isRunning)
     {
         isRunning = 0;

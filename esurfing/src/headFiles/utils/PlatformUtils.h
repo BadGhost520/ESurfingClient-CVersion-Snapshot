@@ -10,10 +10,10 @@
 
 #ifdef _WIN32
 #include <windows.h>
-typedef HANDLE thread_handle_t;
+typedef HANDLE threadHandle;
 #else
 #include <pthread.h>
-typedef pthread_t thread_handle_t;
+typedef pthread_t threadHandle;
 #endif
 
 typedef struct {
@@ -107,16 +107,16 @@ void createBash();
 
 /**
  * 创建线程函数
- * @param thread_func 线程函数
+ * @param threadFunc 线程函数
  * @param arg 线程参数
  * @return 线程句柄
  */
-thread_handle_t create_thread(void *(*thread_func)(void *), void *arg);
+threadHandle createThread(void *(*threadFunc)(void *), void *arg);
 
 /**
  * 等待线程结束函数
  * @param thread 线程句柄
  */
-void join_thread(thread_handle_t thread);
+void waitThreadStop(threadHandle thread);
 
 #endif // PLATFORMUTILS_H

@@ -8,9 +8,9 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-add_custom_target(sync_web_root ALL
+add_custom_target(syncWebRoot ALL
         COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/web_root
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/web_root ${CMAKE_BINARY_DIR}/web_root
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/web_root ${CMAKE_BINARY_DIR}/web_root
         COMMENT "sync web root"
 )
 
@@ -71,9 +71,9 @@ add_executable(ESurfingClient
         src/headFiles/cipher/impl/aes_cbc_pc.h
         src/headFiles/cipher/impl/aes_ecb_pc.h
         src/headFiles/cipher/impl/des_ecb_six_pc.h
-        src/mongoose/mongoose.c
-        src/mongoose/WebServer.c
-        src/mongoose/WebServer.h
+        src/webserver/mongoose.c
+        src/webserver/WebServer.c
+        src/headFiles/webserver/WebServer.h
 )
 
 if(WIN32)
@@ -378,4 +378,4 @@ target_compile_options(ESurfingClient PRIVATE -s)
 target_compile_options(ESurfingClient PRIVATE -O3)
 set_target_properties(ESurfingClient PROPERTIES LINK_FLAGS "-Wl,--strip-all")
 
-add_dependencies(ESurfingClient sync_web_root)
+add_dependencies(ESurfingClient syncWebRoot)

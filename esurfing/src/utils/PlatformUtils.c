@@ -435,30 +435,33 @@ void createBash()
 }
 
 #ifdef _WIN32
-static unsigned __stdcall thread_wrapper(void *arg) {
-    void **args = (void **)arg;
-    void *(*thread_func)(void *) = (void *(*)(void *))args[0];
-    void *thread_arg = args[1];
+static unsigned __stdcall threadWrapper(void *arg)
+{
+    void **args = arg;
+    void *(*thread_func)(void *) = args[0];
+    void *threadArg = args[1];
     free(args);
-    thread_func(thread_arg);
+    thread_func(threadArg);
     return 0;
 }
 #endif
 
-thread_handle_t create_thread(void *(*thread_func)(void *), void *arg) {
+threadHandle createThread(void* (*threadFunc)(void*), void* arg)
+{
 #ifdef _WIN32
-    void **wrapper_args = malloc(sizeof(void *) * 2);
-    wrapper_args[0] = thread_func;
-    wrapper_args[1] = arg;
-    return (HANDLE)_beginthreadex(NULL, 0, thread_wrapper, wrapper_args, 0, NULL);
+    void **wrapperArgs = malloc(sizeof(void *) * 2);
+    wrapperArgs[0] = threadFunc;
+    wrapperArgs[1] = arg;
+    return (HANDLE)_beginthreadex(NULL, 0, threadWrapper, wrapperArgs, 0, NULL);
 #else
-    thread_handle_t thread;
-    pthread_create(&thread, NULL, thread_func, arg);
+    threadHandle thread;
+    pthread_create(&thread, NULL, threadFunc, arg);
     return thread;
 #endif
 }
 
-void join_thread(thread_handle_t thread) {
+void waitThreadStop(threadHandle thread)
+{
 #ifdef _WIN32
     WaitForSingleObject(thread, INFINITE);
     CloseHandle(thread);
@@ -466,3 +469,4 @@ void join_thread(thread_handle_t thread) {
     pthread_join(thread, NULL);
 #endif
 }
+

@@ -1,0 +1,70 @@
+//
+// Created by bad_g on 2025/11/24.
+//
+#include <stdio.h>
+
+#include "../headFiles/webserver/mongoose.h"
+#include "../headFiles/utils/Logger.h"
+#include "../headFiles/utils/PlatformUtils.h"
+#include "../headFiles/States.h"
+
+const char* listenAddr = "http://0.0.0.0:8000";
+
+static void httpHandler(struct mg_connection *c, int ev, void *ev_data)
+{
+    if (ev == MG_EV_HTTP_MSG)
+    {
+        struct mg_http_message *hm = ev_data;
+
+        if (hm->uri.len == 1 && hm->uri.buf[0] == '/')
+        {
+            mg_printf(c,
+                "HTTP/1.1 301 Moved Permanently\r\n"
+                "Location: /index.html\r\n"
+                "Content-Length: 0\r\n"
+                "\r\n");
+            return;
+        }
+
+        struct mg_http_serve_opts opts = {0};
+        opts.root_dir = "./web_root";
+
+        mg_http_serve_dir(c, hm, &opts);
+    }
+}
+
+static void* webServerThread()
+{
+    struct mg_mgr mgr;
+
+    mg_mgr_init(&mgr);
+
+    if (mg_http_listen(&mgr, listenAddr, httpHandler, NULL) == NULL)
+    {
+        LOG_ERROR("无法启动Web服务器，监听地址: %s", listenAddr);
+        mg_mgr_free(&mgr);
+        return NULL;
+    }
+
+    LOG_INFO("Web服务器已启动，访问地址: %s", listenAddr);
+
+    isWebserverRunning = 1;
+    while (isWebserverRunning)
+    {
+        mg_mgr_poll(&mgr, 1000);
+    }
+
+    mg_mgr_free(&mgr);
+    LOG_INFO("Web服务器已停止");
+    return NULL;
+}
+
+threadHandle startWebServer()
+{
+    return createThread(webServerThread, NULL);
+}
+
+void stopWebServer()
+{
+    isWebserverRunning = 0;
+}
