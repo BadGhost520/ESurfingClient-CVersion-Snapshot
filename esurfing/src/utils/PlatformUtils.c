@@ -6,10 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <sys/time.h>
 #include <stdint.h>
 #include <errno.h>
-#include <io.h>
 
 #include "../headFiles/Constants.h"
 #include "../headFiles/States.h"
@@ -24,11 +22,14 @@
     #include <windows.h>
     #include <wincrypt.h>
     #include <sysinfoapi.h>
+    #include <io.h>
 #else
     #include <unistd.h>
     #include <time.h>
     #include <fcntl.h>
     #include <sys/types.h>
+    #include <sys/time.h>
+    #include <sys/stat.h>
 #endif
 
 ByteArray stringToBytes(const char* str)
@@ -168,14 +169,14 @@ void sleepMilliseconds(const int milliseconds)
 #endif
 }
 
-void setClientId(char** client_id)
+char* setClientId()
 {
-    *client_id = malloc(37);
-    if (*client_id)
+    char* client_id = malloc(37);
+    if (client_id)
     {
         unsigned char randomBytes[16];
         secureRandomBytes(randomBytes, 16);
-        snprintf(*client_id, 37,
+        snprintf(client_id, 37,
             "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
             randomBytes[0], randomBytes[1], randomBytes[2], randomBytes[3],
             randomBytes[4], randomBytes[5],
@@ -185,11 +186,12 @@ void setClientId(char** client_id)
             randomBytes[10], randomBytes[11],
             randomBytes[12],randomBytes[13],
             randomBytes[14], randomBytes[15]);
-        for (int i = 0; (*client_id)[i]; i++)
+        for (int i = 0; client_id[i]; i++)
         {
-            (*client_id)[i] = (char)tolower((unsigned char)(*client_id)[i]);
+            client_id[i] = (char)tolower((unsigned char)client_id[i]);
         }
     }
+    return client_id;
 }
 
 char* randomMacAddress()
@@ -248,136 +250,92 @@ char* getFileTime()
     return timeStr;
 }
 
-void formatGetTicketXml(char* buffer, const char* timeStr)
+char* createXMLPayload(const XmlChoose choose)
 {
-    snprintf(buffer, 1024,
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-        "<request>\n"
-        "    <user-agent>%s</user-agent>\n"
-        "    <client-id>%s</client-id>\n"
-        "    <local-time>%s</local-time>\n"
-        "    <host-name>%s</host-name>\n"
-        "    <ipv4>%s</ipv4>\n"
-        "    <ipv6></ipv6>\n"
-        "    <mac>%s</mac>\n"
-        "    <ostag>%s</ostag>\n"
-        "    <gwip>%s</gwip>\n"
-        "</request>",
-        USER_AGENT ? USER_AGENT : "",
-        clientId ? clientId : "",
-        timeStr,
-        HOST_NAME ? HOST_NAME : "",
-        userIp ? userIp : "",
-        macAddress ? macAddress : "",
-        HOST_NAME ? HOST_NAME : "",
-        acIp ? acIp : ""
-    );
-}
-
-void formatLoginXml(char* buffer, const char* timeStr)
-{
-    snprintf(buffer, 1024,
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-        "<request>\n"
-        "    <user-agent>%s</user-agent>\n"
-        "    <client-id>%s</client-id>\n"
-        "    <ticket>%s</ticket>\n"
-        "    <local-time>%s</local-time>\n"
-        "    <userid>%s</userid>\n"
-        "    <passwd>%s</passwd>\n"
-        "</request>",
-        USER_AGENT ? USER_AGENT : "",
-        clientId ? clientId : "",
-        ticket ? ticket : "",
-        timeStr,
-        usr,
-        pwd
-    );
-}
-
-void formatHeartbeatXml(char* buffer, const char* timeStr)
-{
-    snprintf(buffer, 1024,
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-        "<request>\n"
-        "    <user-agent>%s</user-agent>\n"
-        "    <client-id>%s</client-id>\n"
-        "    <local-time>%s</local-time>\n"
-        "    <host-name>%s</host-name>\n"
-        "    <ipv4>%s</ipv4>\n"
-        "    <ticket>%s</ticket>\n"
-        "    <ipv6></ipv6>\n"
-        "    <mac>%s</mac>\n"
-        "    <ostag>%s</ostag>\n"
-        "</request>",
-        USER_AGENT ? USER_AGENT : "",
-        clientId ? clientId : "",
-        timeStr,
-        HOST_NAME ? HOST_NAME : "",
-        userIp ? userIp : "",
-        ticket ? ticket : "",
-        macAddress ? macAddress : "",
-        HOST_NAME ? HOST_NAME : ""
-    );
-}
-
-void formatTermXml(char* buffer, const char* timeStr)
-{
-    snprintf(buffer, 1024,
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-        "<request>\n"
-        "    <user-agent>%s</user-agent>\n"
-        "    <client-id>%s</client-id>\n"
-        "    <local-time>%s</local-time>\n"
-        "    <host-name>%s</host-name>\n"
-        "    <ipv4>%s</ipv4>\n"
-        "    <ticket>%s</ticket>\n"
-        "    <ipv6></ipv6>\n"
-        "    <mac>%s</mac>\n"
-        "    <ostag>%s</ostag>\n"
-        "</request>",
-        USER_AGENT ? USER_AGENT : "",
-        clientId ? clientId : "",
-        timeStr,
-        HOST_NAME ? HOST_NAME : "",
-        userIp ? userIp : "",
-        ticket ? ticket : "",
-        macAddress ? macAddress : "",
-        HOST_NAME ? HOST_NAME : ""
-    );
-}
-
-char* createXMLPayload(const char* choose)
-{
-    char* payload = malloc(1024);
-    if (payload == NULL)
+    char* xml = malloc(1024);
+    if (xml == NULL)
     {
         return NULL;
     }
     char* currentTime = getTime();
     if (currentTime == NULL)
     {
-        free(payload);
+        free(xml);
         return NULL;
     }
-    if (!strcmp(choose, "getTicket"))
+    LOG_DEBUG("XML 选择代码: %d", choose);
+    switch (choose)
     {
-        formatGetTicketXml(payload, currentTime);
-    }
-    else if (!strcmp(choose, "login"))
-    {
-        formatLoginXml(payload, currentTime);
-    }
-    else if (!strcmp(choose, "heartbeat"))
-    {
-        formatHeartbeatXml(payload, currentTime);
-    }
-    else if (!strcmp(choose, "term"))
-    {
-        formatTermXml(payload, currentTime);
+        case GetTicket:
+            snprintf(xml, 1024,
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+                "<request>\n"
+                "    <user-agent>%s</user-agent>\n"
+                "    <client-id>%s</client-id>\n"
+                "    <local-time>%s</local-time>\n"
+                "    <host-name>%s</host-name>\n"
+                "    <ipv4>%s</ipv4>\n"
+                "    <ipv6></ipv6>\n"
+                "    <mac>%s</mac>\n"
+                "    <ostag>%s</ostag>\n"
+                "    <gwip>%s</gwip>\n"
+                "</request>",
+                USER_AGENT ? USER_AGENT : "",
+                clientId ? clientId : "",
+                currentTime,
+                HOST_NAME ? HOST_NAME : "",
+                userIp ? userIp : "",
+                macAddress ? macAddress : "",
+                HOST_NAME ? HOST_NAME : "",
+                acIp ? acIp : ""
+            );
+            break;
+        case Login:
+            snprintf(xml, 1024,
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+                "<request>\n"
+                "    <user-agent>%s</user-agent>\n"
+                "    <client-id>%s</client-id>\n"
+                "    <ticket>%s</ticket>\n"
+                "    <local-time>%s</local-time>\n"
+                "    <userid>%s</userid>\n"
+                "    <passwd>%s</passwd>\n"
+                "</request>",
+                USER_AGENT ? USER_AGENT : "",
+                clientId ? clientId : "",
+                ticket ? ticket : "",
+                currentTime,
+                usr,
+                pwd
+            );
+            break;
+        case Heartbeat:
+        case Term:
+            snprintf(xml, 1024,
+            "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+            "<request>\n"
+            "    <user-agent>%s</user-agent>\n"
+            "    <client-id>%s</client-id>\n"
+            "    <local-time>%s</local-time>\n"
+            "    <host-name>%s</host-name>\n"
+            "    <ipv4>%s</ipv4>\n"
+            "    <ticket>%s</ticket>\n"
+            "    <ipv6></ipv6>\n"
+            "    <mac>%s</mac>\n"
+            "    <ostag>%s</ostag>\n"
+            "</request>",
+            USER_AGENT ? USER_AGENT : "",
+            clientId ? clientId : "",
+            currentTime,
+            HOST_NAME ? HOST_NAME : "",
+            userIp ? userIp : "",
+            ticket ? ticket : "",
+            macAddress ? macAddress : "",
+            HOST_NAME ? HOST_NAME : ""
+        );
     }
     free(currentTime);
-    return payload;
+    return xml;
 }
 
 char* cleanCDATA(const char* text)
@@ -386,7 +344,8 @@ char* cleanCDATA(const char* text)
     const char* cdataStart = "<![CDATA[";
     const char* cdataEnd = "]]>";
     const char* start = strstr(text, cdataStart);
-    if (!start) {
+    if (!start)
+    {
         return strdup(text);
     }
     start += strlen(cdataStart);
@@ -406,7 +365,7 @@ char* cleanCDATA(const char* text)
 
 void createBash()
 {
-    const char* filename = "/root/config.sh";
+    const char* filename = "/var/log/esurfing/config.sh";
     FILE* file = fopen(filename, "w");
 
     if (file == NULL)
