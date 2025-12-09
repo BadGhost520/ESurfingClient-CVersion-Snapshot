@@ -9,8 +9,8 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 add_custom_target(syncWebRoot ALL
-        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/web_root
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/web_root ${CMAKE_BINARY_DIR}/web_root
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/webEsurfingclient
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/../esurfingclient/files/usr/bin/webEsurfingclient ${CMAKE_BINARY_DIR}/webEsurfingclient
         COMMENT "sync web root"
 )
 

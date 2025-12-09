@@ -27,7 +27,7 @@ static void httpHandler(struct mg_connection *c, int ev, void *ev_data)
         }
 
         struct mg_http_serve_opts opts = {0};
-        opts.root_dir = "./web_root";
+        opts.root_dir = "./webEsurfingclient";
 
         mg_http_serve_dir(c, hm, &opts);
     }
@@ -41,12 +41,12 @@ static void* webServerThread()
 
     if (mg_http_listen(&mgr, listenAddr, httpHandler, NULL) == NULL)
     {
-        LOG_ERROR("无法启动Web服务器，监听地址: %s", listenAddr);
+        LOG_ERROR("无法启动 Web 服务器");
         mg_mgr_free(&mgr);
         return NULL;
     }
 
-    LOG_INFO("Web服务器已启动，访问地址: %s", listenAddr);
+    LOG_INFO("Web 服务器已启动，后台访问地址: %s", listenAddr);
 
     isWebserverRunning = 1;
     while (isWebserverRunning)
@@ -55,7 +55,7 @@ static void* webServerThread()
     }
 
     mg_mgr_free(&mgr);
-    LOG_INFO("Web服务器已停止");
+    LOG_INFO("Web 服务器已停止");
     return NULL;
 }
 

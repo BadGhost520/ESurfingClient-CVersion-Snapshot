@@ -159,7 +159,7 @@ int ensureLogDir(char* out)
     }
 #endif
 #ifdef _WIN32
-    const int n = snprintf(out, 260, "%s%c/web_root/logs", dir, sep);
+    const int n = snprintf(out, 260, "%s%c/webEsurfingclient/logs", dir, sep);
     if (n < 0 || (size_t)n >= 260)
     {
         return -1;
@@ -173,7 +173,7 @@ int ensureLogDir(char* out)
         }
     }
 #else
-    int n = snprintf(out, 260, "%s%c/web_root/logs", dir, sep);
+    int n = snprintf(out, 260, "%s%c/webEsurfingclient/logs", dir, sep);
     if (n < 0 || (size_t)n >= 260)
     {
         return -1;

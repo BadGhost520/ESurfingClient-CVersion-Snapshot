@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 字体 CSS -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- 样式 CSS -->
+    <link rel="stylesheet" href="assets/css/basic.css">
+    <link rel="stylesheet" href="assets/css/sidebar-style.css">
+    <link rel="stylesheet" href="assets/css/dashboard-style.css">
+    <link rel="stylesheet" href="assets/css/log-style.css">
+    <link rel="stylesheet" href="assets/css/settings-style.css">
+    <link rel="stylesheet" href="assets/css/about-style.css">
+    <title id="title">加载中</title>
+</head>
+
+<body>
+    <div id="main" class="main">
+        <!-- 导航栏 -->
+        <div id="sidebar" class="sidebar">
+            <div id="sidebar-logo" class="sidebar-logo">
+                <div class="sidebar-text">ESurfingClient</div>
+            </div>
+            <hr>
+            <div id="short-switch" class="short-switch"><img class="short-switch-icon" src="assets/vector/更多列表.png" alt="更多列表"></div>
+            <div id="sidebar-navs" class="sidebar-navs">
+                <div id="dashboard" class="nav"><img class="nav-icon" src="assets/vector/仪表板.png" alt="仪表板">仪表板</div>
+                <div id="log" class="nav"><img class="nav-icon" src="assets/vector/系统日志.png" alt="日志">日志</div>
+                <div id="settings" class="nav"><img class="nav-icon" src="assets/vector/设置.png" alt="设置">设置</div>
+                <div id="about" class="nav"><img class="nav-icon" src="assets/vector/关于.png" alt="关于">关于</div>
+            </div>
+        </div>
+        <!-- 内容面板 -->
+        <!-- 主页 -->
+        <div id="dashboard-content" class="content">
+            <div class="title">
+                <div class="blueblock"></div>
+                <div class="title-text">仪表板</div>
+            </div>
+        </div>
+        <!-- 日志 -->
+        <div id="log-content" class="content">
+            <div class="title">
+                <div class="blueblock"></div>
+                <div class="title-text">日志</div>
+            </div>
+            <div class="log-scrollbox">
+                <div class="logs">无日志输出或 Web 服务器已关闭</div>
+            </div>
+        </div>
+        <!-- 设置 -->
+        <div id="settings-content" class="content">
+            <div class="title">
+                <div class="blueblock"></div>
+                <div class="title-text">设置</div>
+            </div>
+        </div>
+        <!-- 关于 -->
+        <div id="about-content" class="content">
+            <div class="title">
+                <div class="blueblock"></div>
+                <div class="title-text">关于 ESurfingClient</div>
+            </div>
+            <div class="about-text">
+                <div>版本 v1.0.6 Release 1</div>
+                <div>Copyright © 2025 BadGhost</div>
+                <div>GitHub 项目地址: <a href="https://github.com/BadGhost520/ESurfingClient-CVersion">>[传送门]<</a></div>
+            </div>
+            <div class="about-license-scrollbox">
+                <div class="license" id="license"></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/basic.js"></script>
+    <!-- <script src="assets/js/getlog.js"></script> -->
+    <script src="assets/js/license.js"></script>
+</body>
+
+</html>

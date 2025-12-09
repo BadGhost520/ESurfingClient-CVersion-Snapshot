@@ -1,0 +1,92 @@
+* {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+}
+
+html {
+    overflow: hidden;
+}
+
+img {
+    pointer-events: none;
+}
+
+body {
+    margin: 0;
+    background-color: #FAFFFF;
+}
+
+.main {
+    display: flex;
+}
+
+.content {
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 280px;
+    right: 30px;
+    top: 30px;
+    bottom: 30px;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.content.short {
+    left: 15px;
+    right: 15px;
+    top: 65px;
+    bottom: 15px;
+}
+
+.title {
+    width: 290px;
+    display: flex;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 20px;
+}
+
+.title.short {
+    font-size: 16px;
+    width: 202px;
+    margin: 15px 15px;
+}
+
+.title-text {
+    font-family: "JetBrainsMono", system-ui;
+    margin: auto 5px;
+}
+
+.on {
+    background-color: #DBDBDB;
+    font-weight: bold;
+}
+
+.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1000;
+}
+
+.blueblock {
+    background-color: #00C6FF;
+    width: 6px;
+    height: 20px;
+    border-radius: 2px;
+    margin: auto 5px;
+}
+
+.blueblock.short {
+    width: 4px;
+    height: 16px;
+}
