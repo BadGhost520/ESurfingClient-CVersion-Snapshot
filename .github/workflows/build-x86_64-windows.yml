@@ -189,5 +189,5 @@ jobs:
       with:
         name: esurfingclient-windows-x64
         path: |
-          ESurfingClient-x86_64-windows.exe
+          esurfingclient-windows-x64.zip
         retention-days: 30
