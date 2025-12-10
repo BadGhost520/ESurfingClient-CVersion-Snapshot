@@ -151,15 +151,7 @@ int ensureLogDir(char* out)
     {
         return -1;
     }
-#else
-    const char* dir = "/var/log/esurfing";
-    if (isDebug && !isSmallDevice && access("/etc/openwrt_release", F_OK) == 0)
-    {
-        dir = "/usr/esurfing";
-    }
-#endif
-#ifdef _WIN32
-    const int n = snprintf(out, 260, "%s%c/webEsurfingclient/logs", dir, sep);
+    const int n = snprintf(out, 260, "%s%clogs", dir, sep);
     if (n < 0 || (size_t)n >= 260)
     {
         return -1;
@@ -173,7 +165,12 @@ int ensureLogDir(char* out)
         }
     }
 #else
-    int n = snprintf(out, 260, "%s%c/webEsurfingclient/logs", dir, sep);
+    const char* dir = "/var/log/esurfing";
+    if (isDebug && !isSmallDevice && access("/etc/openwrt_release", F_OK) == 0)
+    {
+        dir = "/usr/esurfing";
+    }
+    int n = snprintf(out, 260, "%s%clogs", dir, sep);
     if (n < 0 || (size_t)n >= 260)
     {
         return -1;

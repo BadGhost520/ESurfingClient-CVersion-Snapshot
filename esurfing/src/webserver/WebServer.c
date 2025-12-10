@@ -9,7 +9,7 @@
 #include "../headFiles/States.h"
 #include "../headFiles/utils/CheckAdapters.h"
 
-const char* listenAddr = "http://0.0.0.0:8000";
+const char* listenAddr = "http://0.0.0.0:9191";
 
 static void httpHandler(struct mg_connection *c, int ev, void *ev_data)
 {
@@ -62,6 +62,7 @@ static void* webServerThread()
     if (mg_http_listen(&mgr, listenAddr, httpHandler, NULL) == NULL)
     {
         LOG_ERROR("无法启动 Web 服务器");
+        LOG_WARN("请检查 9191 端口是否被占用");
         mg_mgr_free(&mgr);
         return NULL;
     }
