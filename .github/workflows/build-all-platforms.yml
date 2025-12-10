@@ -320,7 +320,7 @@ jobs:
           
           rm -rf release-files
 
-          zip -r "${RELEASE_PACKAGE}.zip" ./*
+          zip -r "${RELEASE_PACKAGE}.zip" ./*.zip ./*.ipk ./*.tar.gz
 
           mkdir release-files
 
