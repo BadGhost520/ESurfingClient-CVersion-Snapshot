@@ -12,13 +12,11 @@
 #include "../headFiles/Constants.h"
 #include "../headFiles/States.h"
 #include "../headFiles/utils/PlatformUtils.h"
-
-#include <process.h>
-
 #include "../headFiles/Options.h"
 #include "../headFiles/utils/Logger.h"
 
 #ifdef _WIN32
+    #include <process.h>
     #include <windows.h>
     #include <wincrypt.h>
     #include <sysinfoapi.h>
