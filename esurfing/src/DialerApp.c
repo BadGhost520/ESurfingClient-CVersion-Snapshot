@@ -13,6 +13,7 @@
 #include "headFiles/utils/PlatformUtils.h"
 #include "headFiles/utils/Shutdown.h"
 #include "headFiles/webserver/WebServer.h"
+#include "headFiles/utils/CheckAdapters.h"
 
 int main(const int argc, char* argv[]) {
     int opt;

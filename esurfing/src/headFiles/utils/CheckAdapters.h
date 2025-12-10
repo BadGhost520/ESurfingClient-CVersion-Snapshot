@@ -1,0 +1,10 @@
+//
+// Created by bad_g on 2025/12/10.
+//
+
+#ifndef ESURFINGCLIENT_CHECKADAPTERS_H
+#define ESURFINGCLIENT_CHECKADAPTERS_H
+
+char* getAdapterJSON();
+
+#endif //ESURFINGCLIENT_CHECKADAPTERS_H

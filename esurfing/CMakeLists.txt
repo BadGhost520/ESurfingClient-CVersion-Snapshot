@@ -48,6 +48,8 @@ add_executable(ESurfingClient
         src/cipher/impl/des_ecb_six_pc.c
         src/webserver/mongoose.c
         src/webserver/WebServer.c
+        src/utils/CheckAdapters.c
+        src/utils/cJSON.c
 )
 
 if(WIN32)

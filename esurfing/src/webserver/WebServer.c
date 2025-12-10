@@ -7,6 +7,7 @@
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/utils/PlatformUtils.h"
 #include "../headFiles/States.h"
+#include "../headFiles/utils/CheckAdapters.h"
 
 const char* listenAddr = "http://0.0.0.0:8000";
 
@@ -24,6 +25,25 @@ static void httpHandler(struct mg_connection *c, int ev, void *ev_data)
                 "Content-Length: 0\r\n"
                 "\r\n");
             return;
+        }
+
+        if (mg_match(hm->uri, mg_str("/api/getStatus"), NULL))
+        {
+            if (mg_strcmp(hm->method, mg_str("GET")) == 0)
+            {
+                char* response_data = getAdapterJSON();
+
+                mg_printf(c,
+                    "HTTP/1.1 200 OK\r\n"
+                    "Content-Type: application/json\r\n"
+                    "Content-Length: %d\r\n"
+                    "\r\n"
+                    "%s",
+                    (int)strlen(response_data), response_data);
+
+                free(response_data);
+                return;
+            }
         }
 
         struct mg_http_serve_opts opts = {0};
