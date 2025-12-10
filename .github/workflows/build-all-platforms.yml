@@ -271,8 +271,6 @@ jobs:
                 
                 console.log(`✅ Downloaded: ${artifact.name}.zip (${(download.data.byteLength / 1024).toFixed(1)} KB)`);
                 
-                if (artifact.name.includes('windows') || artifact.name.includes('linux')) continue;
-                
                 // 解压 zip 文件
                 console.log(`📂 Extracting ${artifact.name}.zip...`);
                 
