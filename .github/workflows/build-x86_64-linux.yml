@@ -114,8 +114,6 @@ jobs:
           echo "📦 Creating package"
           
           # Create compressed package with executable in root
-          ls
-          ls ..
           tar -czf esurfingclient-x64-linux.tar.gz ESurfingClient-x86_64-linux esurfingclient/files/usr/bin/webEsurfingclient/
           
           echo "📦 Package created: esurfingclient-x64-linux.tar.gz"
@@ -126,5 +124,5 @@ jobs:
         with:
           name: esurfingclient-x64-linux
           path: |
-            ESurfingClient-x86_64-linux
+            esurfingclient-x64-linux.tar.gz
           retention-days: 30
