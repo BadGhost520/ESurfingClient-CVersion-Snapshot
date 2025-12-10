@@ -72,6 +72,7 @@ char* getAdapterJSON()
                 cJSON_AddNumberToObject(adapter, "count", count);
                 cJSON_AddStringToObject(adapter, "name", ifa->ifa_name);
                 cJSON_AddStringToObject(adapter, "ip", ip);
+                cJSON_AddItemToArray(adapters, adapter);
                 count++;
             }
         }

@@ -55,7 +55,6 @@ int main(const int argc, char* argv[]) {
         }
     }
     loggerInit();
-    webServerInstance = startWebServer();
     if (username && password)
     {
         LOG_DEBUG("用户名: %s", usr);
@@ -100,6 +99,7 @@ int main(const int argc, char* argv[]) {
         refreshStates();
         LOG_INFO("程序启动中");
         sleepMilliseconds(5000);
+        webServerInstance = startWebServer();
         while (isRunning)
         {
             if (currentTimeMillis() - authTime >= 172200000 && authTime != 0)
