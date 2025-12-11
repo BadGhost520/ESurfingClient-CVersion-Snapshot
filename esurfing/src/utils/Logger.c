@@ -5,8 +5,8 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-#include "../headFiles/utils/Logger.h"
 #include "../headFiles/utils/PlatformUtils.h"
+#include "../headFiles/utils/Logger.h"
 #include "../headFiles/Options.h"
 
 #ifdef _WIN32

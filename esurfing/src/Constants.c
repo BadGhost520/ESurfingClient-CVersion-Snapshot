@@ -3,8 +3,8 @@
 //
 #include <stdlib.h>
 
-#include "headFiles/utils/Logger.h"
 #include "headFiles/utils/PlatformUtils.h"
+#include "headFiles/utils/Logger.h"
 
 const char* USER_AGENT;
 const char* REQUEST_ACCEPT = "text/html,text/xml,application/xhtml+xml,application/x-javascript,*/*";

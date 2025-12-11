@@ -6,11 +6,11 @@
 #include <openssl/evp.h>
 #include <curl/curl.h>
 
-#include "headFiles/States.h"
-#include "headFiles/NetClient.h"
-#include "headFiles/Constants.h"
-#include "headFiles/utils/Logger.h"
 #include "headFiles/utils/PlatformUtils.h"
+#include "headFiles/utils/Logger.h"
+#include "headFiles/Constants.h"
+#include "headFiles/NetClient.h"
+#include "headFiles/States.h"
 
 char* extractBetweenTags(const char* text, const char* start_tag, const char* end_tag)
 {

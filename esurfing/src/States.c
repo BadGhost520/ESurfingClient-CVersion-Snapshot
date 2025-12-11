@@ -5,8 +5,8 @@
 #include <stdlib.h>
 
 #include "headFiles/utils/PlatformUtils.h"
-#include "headFiles/States.h"
 #include "headFiles/utils/Logger.h"
+#include "headFiles/States.h"
 
 char* clientId;
 char* algoId;
@@ -19,6 +19,7 @@ int isRunning = 0;
 int isLogged = 0;
 int isInitialized = 0;
 int isWebserverRunning = 0;
+int isSettingsChange = 0;
 
 long long authTime = 0;
 

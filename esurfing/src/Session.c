@@ -5,11 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "headFiles/cipher/CipherInterface.h"
 #include "headFiles/utils/PlatformUtils.h"
+#include "headFiles/utils/Logger.h"
 #include "headFiles/Session.h"
 #include "headFiles/States.h"
-#include "headFiles/cipher/CipherInterface.h"
-#include "headFiles/utils/Logger.h"
 
 void sessionFree()
 {

@@ -1,16 +1,15 @@
 #include "../headFiles/utils/Shutdown.h"
 
-#include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
 
 #include "../headFiles/cipher/CipherInterface.h"
-#include "../headFiles/States.h"
+#include "../headFiles/webserver/WebServer.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/Session.h"
+#include "../headFiles/States.h"
 #include "../headFiles/Client.h"
-#include "../headFiles/webserver/WebServer.h"
 
 void performCleanup()
 {

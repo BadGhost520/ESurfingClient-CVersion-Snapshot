@@ -3,15 +3,17 @@
 //
 #include <stdio.h>
 
+#include "../headFiles/utils/PlatformUtils.h"
+#include "../headFiles/utils/CheckAdapters.h"
 #include "../headFiles/webserver/mongoose.h"
 #include "../headFiles/utils/Logger.h"
-#include "../headFiles/utils/PlatformUtils.h"
+#include "../headFiles/utils/cJSON.h"
+#include "../headFiles/Options.h"
 #include "../headFiles/States.h"
-#include "../headFiles/utils/CheckAdapters.h"
 
 const char* listenAddr = "http://0.0.0.0:9191";
 
-static void httpHandler(struct mg_connection *c, int ev, void *ev_data)
+static void httpHandler(struct mg_connection *c, const int ev, void *ev_data)
 {
     if (ev == MG_EV_HTTP_MSG)
     {
@@ -42,6 +44,69 @@ static void httpHandler(struct mg_connection *c, int ev, void *ev_data)
                     (int)strlen(response_data), response_data);
 
                 free(response_data);
+                return;
+            }
+        }
+
+        if (mg_match(hm->uri, mg_str("/api/settings"), NULL))
+        {
+            if (mg_strcmp(hm->method, mg_str("POST")) == 0)
+            {
+                const struct mg_str body = hm->body;
+                char* response = "{\"status\":\"failed\",\"message\":\"设置未能成功保存\"}";
+
+                cJSON* jsonData = cJSON_Parse(body.buf);
+                if (jsonData)
+                {
+                    const cJSON* settings = cJSON_GetObjectItem(jsonData, "settings");
+                    if (settings == NULL)
+                    {
+                        mg_printf(c,
+                            "HTTP/1.1 200 OK\r\n"
+                            "Content-Type: application/json\r\n"
+                            "Content-Length: %d\r\n"
+                            "\r\n"
+                            "%s",
+                            (int)strlen(response), response);
+                        return;
+                    }
+                    const cJSON* username = cJSON_GetObjectItem(settings, "username");
+                    const cJSON* password = cJSON_GetObjectItem(settings, "password");
+                    const cJSON* channel = cJSON_GetObjectItem(settings, "channel");
+                    const cJSON* debug = cJSON_GetObjectItem(settings, "isDebug");
+                    const cJSON* smallDevice = cJSON_GetObjectItem(settings, "isSmallDevice");
+                    if (username && cJSON_IsString(username))
+                    {
+                        usr = username->valuestring;
+                    }
+                    if (password && cJSON_IsString(password))
+                    {
+                        pwd = password->valuestring;
+                    }
+                    if (channel && cJSON_IsString(channel))
+                    {
+                        chn = channel->valuestring;
+                    }
+                    if (isDebug && cJSON_IsNumber(debug))
+                    {
+                        isDebug = debug->valueint;
+                    }
+                    if (smallDevice && cJSON_IsNumber(smallDevice))
+                    {
+                        isSmallDevice = smallDevice->valueint;
+                    }
+                    cJSON_Delete(jsonData);
+                    isSettingsChange = 1;
+                    response = "{\"status\":\"success\",\"message\":\"设置已成功保存并应用\"}";
+                }
+
+                mg_printf(c,
+                    "HTTP/1.1 200 OK\r\n"
+                    "Content-Type: application/json\r\n"
+                    "Content-Length: %d\r\n"
+                    "\r\n"
+                    "%s",
+                    (int)strlen(response), response);
                 return;
             }
         }

@@ -18,6 +18,7 @@ extern int isRunning;
 extern int isLogged;
 extern int isInitialized;
 extern int isWebserverRunning;
+extern int isSettingsChange;
 
 extern long long authTime;
 
