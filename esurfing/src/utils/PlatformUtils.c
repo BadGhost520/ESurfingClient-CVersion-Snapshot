@@ -9,11 +9,11 @@
 #include <stdint.h>
 #include <errno.h>
 
-#include "../headFiles/Constants.h"
-#include "../headFiles/States.h"
 #include "../headFiles/utils/PlatformUtils.h"
-#include "../headFiles/Options.h"
 #include "../headFiles/utils/Logger.h"
+#include "../headFiles/Constants.h"
+#include "../headFiles/Options.h"
+#include "../headFiles/States.h"
 
 #ifdef _WIN32
     #include <windows.h>

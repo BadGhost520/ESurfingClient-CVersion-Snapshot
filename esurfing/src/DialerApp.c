@@ -3,15 +3,15 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "headFiles/Client.h"
+#include "headFiles/cipher/CipherInterface.h"
+#include "headFiles/utils/PlatformUtils.h"
+#include "headFiles/utils/Shutdown.h"
+#include "headFiles/utils/Logger.h"
 #include "headFiles/Constants.h"
 #include "headFiles/Options.h"
 #include "headFiles/Session.h"
+#include "headFiles/Client.h"
 #include "headFiles/States.h"
-#include "headFiles/cipher/CipherInterface.h"
-#include "headFiles/utils/Logger.h"
-#include "headFiles/utils/PlatformUtils.h"
-#include "headFiles/utils/Shutdown.h"
 
 int main(const int argc, char* argv[]) {
     int opt;
