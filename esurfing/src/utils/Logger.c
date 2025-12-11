@@ -8,6 +8,7 @@
 #include "../headFiles/utils/PlatformUtils.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/Options.h"
+#include "../headFiles/States.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -143,6 +144,7 @@ int getExecutableDir(char* out)
 #endif
 }
 
+// TODO
 int ensureLogDir(char* out)
 {
 #ifdef WIN32
@@ -273,7 +275,13 @@ void loggerWriteToFile(const char* message)
     {
         fprintf(gLoggerConfig.fileHandle, "%s", message);
         fflush(gLoggerConfig.fileHandle);
+        logModTime = currentTimeMillis();
     }
+}
+
+char* getLogFile()
+{
+    return gLoggerConfig.logFile;
 }
 
 void loggerLog(const LogLevel level, const char* file, const int line, const char* format, ...)

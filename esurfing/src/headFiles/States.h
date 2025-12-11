@@ -21,6 +21,7 @@ extern int isWebserverRunning;
 extern int isSettingsChange;
 
 extern long long authTime;
+extern long long logModTime;
 
 extern char* schoolId;
 extern char* domain;

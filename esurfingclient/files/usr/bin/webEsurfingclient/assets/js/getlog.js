@@ -1,57 +1,28 @@
-let isUpdating = false;
-let lastContentHash = null;
-function simpleHash(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-        const char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    return hash;
-}
-
-async function readLogFile() {
-    try {
-        const response = await fetch('/logs/run.log');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return await response.text();
-    } catch (error) {
-        console.error('读取文件失败:', error);
-        return '无日志输出或 Web 服务器已关闭';
-    }
-}
+const logs = document.getElementById('logs');
 
 async function updateLogs() {
-    if (isUpdating) return;
-    
-    isUpdating = true;
-    
     try {
-        const logsElement = document.querySelector('.logs');
-        if (logsElement) {
-            const logContent = await readLogFile();
-            const currentHash = simpleHash(logContent);
-            
-            if (currentHash !== lastContentHash) {
-                lastContentHash = currentHash;
-                logsElement.textContent = logContent;
+        const response = await fetch('/api/getLogs', {
+            cache: 'no-store',
+            signal: AbortSignal.timeout(3000)
+        });
+        const data = await response.text();
 
-                const scrollBox = logsElement.parentElement;
+        if (data !== 'nonew') {
+            if (logs.innerHTML !== data) {
+                logs.innerHTML = data;
+                const scrollBox = logs.parentElement;
                 scrollBox.scrollTop = scrollBox.scrollHeight;
-
-                console.log('日志已更新');
             }
+        } else {
+            console.log('No new logs');
         }
     } catch (error) {
-        console.error('更新日志失败:', error);
-    } finally {
-        isUpdating = false;
+        console.error('获取日志失败:', error);
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    updateLogs();
-    setInterval(updateLogs, 500);
+// 使用 DOMContentLoaded 而不是 load
+document.addEventListener('DOMContentLoaded', () => {
+    setInterval(updateLogs, 5000);
 });

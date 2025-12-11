@@ -79,9 +79,10 @@ log.addEventListener('click', () => {
     toggleLog();
 });
 
-settings.addEventListener('click', () => { 
+settings.addEventListener('click', () => {
     clearActive();
     toggleSettings();
+    getSettings();
 });
 
 about.addEventListener('click', () => { 
@@ -108,8 +109,8 @@ async function initSwitchDocumentWidth() {
     window.addEventListener('resize', switchDocumentStyle);
 }
 
-window.onload = () => {
+window.addEventListener('load', () => {
     initSwitchDocumentWidth();
     clearActive();
     toggleDashboard();
-};
+});

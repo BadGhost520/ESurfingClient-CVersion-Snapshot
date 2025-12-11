@@ -1,17 +1,133 @@
-.form-group {
+.show-pwd {
+    margin: auto 0;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.settings-change-btn {
+    margin-top: 15px;
+    margin-left: 50px;
+    width: 85px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: solid 1px #374EFF;
+    transition: all 0.2s ease;
+}
+
+.settings-change-btn:hover {
+    background-color: #3A50FE;
+    color: white;
+    cursor: pointer;
+}
+
+.modal {
+    left: 250px;
+    right: 0;
+    height: 100vh;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 0;
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    transition: all 0.2s ease;
+}
+
+.modal.modalact {
+    z-index: 5000;
+    visibility: visible;
+    opacity: 1;
+    backdrop-filter: blur(3px);
+}
+
+.settings-modal-container {
+    width: 500px;
+    height: 350px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 15px 25px 5px 25px;
+}
+
+.modal-btns {
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.form-group {
+    display: flex;
+    margin-top: 15px;
 }
 
 .form-group label { 
-    width: 100px;
-    font-size: 20px;
-    text-align: 30px;
+    width: 135px;
+    font-size: 14px;
+    text-align: right;
+    margin: auto 15px;
 }
 
 .form-group input {
     height: 30px;
     width: 160px;
-    font-size: 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: solid 1px #E4E4E4;
+}
+
+.readonly-group input {
+    background-color: rgba(150, 150, 150, 0.1);
+    cursor: default;
+}
+
+.form-group input:focus {
+    outline: none;
+}
+
+.choose-btn {
+    margin-right: 10px;
+    height: 30px;
+    width: 60px;
+    font-size: 15px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 6px;
+    border: solid 1px #E4E4E4;
+    background-color: white;
+    transition: all 0.2s ease;
+}
+
+.choose-btn.btnon {
+    border: solid 1px #374EFF;
+    background-color: #3A50FE;
+    color: white;
+}
+
+.choose-btn:hover {
+    border: solid 1px #374EFF;
+    cursor: pointer;
+}
+
+.choose-btn.static {
+    border: solid 1px #E4E4E4;
+    cursor: default;
+}
+
+.choose-btn.static.btnon {
+    border: solid 1px #374EFF;
+    background-color: #3A50FE;
+    cursor: default;
+    color: white;
 }

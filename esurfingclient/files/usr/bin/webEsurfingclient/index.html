@@ -24,7 +24,8 @@
                 <div class="sidebar-text">ESurfingClient</div>
             </div>
             <hr>
-            <div id="short-switch" class="short-switch"><img class="short-switch-icon" src="assets/vector/更多列表.png" alt="更多列表"></div>
+            <div id="short-switch" class="short-switch"><img class="short-switch-icon" src="assets/vector/更多列表.png"
+                    alt="更多列表"></div>
             <div id="sidebar-navs" class="sidebar-navs">
                 <div id="dashboard" class="nav"><img class="nav-icon" src="assets/vector/仪表板.png" alt="仪表板">仪表板</div>
                 <div id="log" class="nav"><img class="nav-icon" src="assets/vector/系统日志.png" alt="日志">日志</div>
@@ -47,7 +48,7 @@
                 <div class="title-text">日志</div>
             </div>
             <div class="log-scrollbox">
-                <div class="logs">无日志输出或 Web 服务器已关闭</div>
+                <div id="logs" class="logs">无日志输出或 Web 服务器已关闭</div>
             </div>
         </div>
         <!-- 设置 -->
@@ -57,22 +58,68 @@
                 <div class="title-text">设置</div>
             </div>
             <div>
+                <div class="form-group readonly-group">
+                    <label for="static-usr">用户名</label>
+                    <input id="static-usr" type="text" value="111" readonly>
+                </div>
+                <div class="form-group readonly-group">
+                    <label for="static-pwd">密码</label>
+                    <input id="static-pwd" type="password" value="123" readonly>
+                    <div id="show-pwd" class="show-pwd">显示密码</div>
+                </div>
+                <div class="form-group radio-group">
+                    <label>认证通道</label>
+                    <div id="static-chn-pc" class="choose-btn static">PC</div>
+                    <div id="static-chn-phone" class="choose-btn static">Phone</div>
+                </div>
+                <div class="form-group radio-group">
+                    <label>调试模式</label>
+                    <div id="static-debug-on" class="choose-btn static">开启</div>
+                    <div id="static-debug-off" class="choose-btn static">关闭</div>
+                </div>
+                <div class="form-group radio-group">
+                    <label>小容量设备模式</label>
+                    <div id="static-small-on" class="choose-btn static">开启</div>
+                    <div id="static-small-off" class="choose-btn static">关闭</div>
+                </div>
+            </div>
+            <div id="settings-change-btn" class="settings-change-btn">更改设置</div>
+        </div>
+        <div id="settings-modal" class="modal">
+            <div id="settings-modal-container" class="settings-modal-container">
+                <div class="modal-title">更改设置</div>
                 <form id="settings-form">
                     <div class="form-group">
-                        <label>用户名:</label>
-                        <input type="text" name="username">
+                        <label for="usr">用户名</label>
+                        <input id="usr" type="text" name="username" required>
                     </div>
                     <div class="form-group">
-                        <label>密码:</label>
-                        <input type="password" name="password">
+                        <label for="pwd">密码</label>
+                        <input id="pwd" type="password" name="password" required>
                     </div>
-                    <div class="form-group">
-                        <label>认证通道:</label>
-                        <input type="radio" name="">
-
+                    <div class="form-group radio-group">
+                        <label>认证通道</label>
+                        <input type="hidden" name="channel" value="phone">
+                        <div id="channel-pc" class="choose-btn">PC</div>
+                        <div id="channel-phone" class="choose-btn btnon">Phone</div>
                     </div>
-                    <button type="submit">提交</button>
+                    <div class="form-group radio-group">
+                        <label>调试模式</label>
+                        <input type="hidden" name="debug" value="0">
+                        <div id="isDebug-on" class="choose-btn">开启</div>
+                        <div id="isDebug-off" class="choose-btn btnon">关闭</div>
+                    </div>
+                    <div class="form-group radio-group">
+                        <label>小容量设备模式</label>
+                        <input type="hidden" name="smallDevice" value="0">
+                        <div id="isSmallDevice-on" class="choose-btn">开启</div>
+                        <div id="isSmallDevice-off" class="choose-btn btnon">关闭</div>
+                    </div>
                 </form>
+                <div class="modal-btns">
+                    <div id="settings-cancel" class="choose-btn">取消</div>
+                    <div id="settings-submit" class="choose-btn btnon">确定</div>
+                </div>
             </div>
         </div>
         <!-- 关于 -->
@@ -84,7 +131,8 @@
             <div class="about-text">
                 <div>版本 v1.0.6 Release 1</div>
                 <div>Copyright © 2025 BadGhost</div>
-                <div>GitHub 项目地址: <a href="https://github.com/BadGhost520/ESurfingClient-CVersion">>[传送门]<</a></div>
+                <div>GitHub 项目地址: <a href="https://github.com/BadGhost520/ESurfingClient-CVersion">[传送门]</a>
+                </div>
             </div>
             <div class="about-license-scrollbox">
                 <div class="license" id="license"></div>
@@ -92,8 +140,8 @@
         </div>
     </div>
     <script src="assets/js/basic.js"></script>
-    <!-- <script src="assets/js/getlog.js"></script> -->
-     <script src="assets/js/settings.js"></script>
+    <script src="assets/js/getlog.js"></script>
+    <script src="assets/js/settings.js"></script>
     <script src="assets/js/license.js"></script>
 </body>
 

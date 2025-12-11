@@ -11,7 +11,9 @@
 #include "../headFiles/Options.h"
 #include "../headFiles/States.h"
 
-const char* listenAddr = "http://0.0.0.0:9191";
+const char* listenAddr = "http://0.0.0.0:8888";
+const char* logFile;
+long long checkTime = 0;
 
 static void httpHandler(struct mg_connection *c, const int ev, void *ev_data)
 {
@@ -48,7 +50,7 @@ static void httpHandler(struct mg_connection *c, const int ev, void *ev_data)
             }
         }
 
-        if (mg_match(hm->uri, mg_str("/api/settings"), NULL))
+        if (mg_match(hm->uri, mg_str("/api/updateSettings"), NULL))
         {
             if (mg_strcmp(hm->method, mg_str("POST")) == 0)
             {
@@ -73,8 +75,8 @@ static void httpHandler(struct mg_connection *c, const int ev, void *ev_data)
                     const cJSON* username = cJSON_GetObjectItem(settings, "username");
                     const cJSON* password = cJSON_GetObjectItem(settings, "password");
                     const cJSON* channel = cJSON_GetObjectItem(settings, "channel");
-                    const cJSON* debug = cJSON_GetObjectItem(settings, "isDebug");
-                    const cJSON* smallDevice = cJSON_GetObjectItem(settings, "isSmallDevice");
+                    const cJSON* debug = cJSON_GetObjectItem(settings, "debug");
+                    const cJSON* smallDevice = cJSON_GetObjectItem(settings, "smallDevice");
                     if (username && cJSON_IsString(username))
                     {
                         usr = username->valuestring;
@@ -119,8 +121,8 @@ static void httpHandler(struct mg_connection *c, const int ev, void *ev_data)
                 cJSON_AddStringToObject(settings, "username", usr);
                 cJSON_AddStringToObject(settings, "password", pwd);
                 cJSON_AddStringToObject(settings, "channel", chn);
-                cJSON_AddNumberToObject(settings, "isDebug", isDebug);
-                cJSON_AddNumberToObject(settings, "isSmallDevice", isSmallDevice);
+                cJSON_AddNumberToObject(settings, "debug", isDebug);
+                cJSON_AddNumberToObject(settings, "smallDevice", isSmallDevice);
                 char* temp = cJSON_Print(settings);
                 char* response_data = strdup(temp);
                 free(temp);
@@ -138,6 +140,50 @@ static void httpHandler(struct mg_connection *c, const int ev, void *ev_data)
             }
         }
 
+        if (mg_match(hm->uri, mg_str("/api/getLogs"), NULL))
+        {
+            if (mg_strcmp(hm->method, mg_str("GET")) == 0)
+            {
+                char* response_data = "nonew";
+                int needFree = 0;
+                struct stat file_stat;
+                if (stat(logFile, &file_stat) == 0)
+                {
+                    if (checkTime != logModTime)
+                    {
+                        checkTime = logModTime;
+                        FILE* file = fopen(logFile, "r");
+                        fseek(file, 0, SEEK_END);
+                        const long fileSize = ftell(file);
+                        fseek(file, 0, SEEK_SET);
+                        char* buffer = malloc(fileSize + 1);
+                        fread(buffer, 1, fileSize, file);
+                        buffer[fileSize] = '\0';
+                        response_data = strdup(buffer);
+                        needFree = 1;
+                        free(buffer);
+                        fclose(file);
+                    }
+                    else
+                    {
+                        LOG_DEBUG("无新日志");
+                    }
+                }
+                mg_printf(c,
+                    "HTTP/1.1 200 OK\r\n"
+                    "Content-Type: application/text\r\n"
+                    "Content-Length: %d\r\n"
+                    "\r\n"
+                    "%s",
+                    (int)strlen(response_data), response_data);
+                if (needFree)
+                {
+                    free(response_data);
+                }
+                return;
+            }
+        }
+
         struct mg_http_serve_opts opts = {0};
         opts.root_dir = "./webEsurfingclient";
 
@@ -147,19 +193,19 @@ static void httpHandler(struct mg_connection *c, const int ev, void *ev_data)
 
 static void* webServerThread()
 {
+    logFile = getLogFile();
+    LOG_DEBUG("日志文件路径: %s", logFile);
     struct mg_mgr mgr;
-
     mg_mgr_init(&mgr);
-
     if (mg_http_listen(&mgr, listenAddr, httpHandler, NULL) == NULL)
     {
         LOG_ERROR("无法启动 Web 服务器");
-        LOG_WARN("请检查 9191 端口是否被占用");
+        LOG_WARN("请检查 8888 端口是否被占用");
         mg_mgr_free(&mgr);
         return NULL;
     }
 
-    LOG_INFO("Web 服务器已启动，后台访问地址: %s", listenAddr);
+    LOG_INFO("Web 服务器已启动，后台访问地址: http://127.0.0.1:8888");
 
     isWebserverRunning = 1;
     while (isWebserverRunning)

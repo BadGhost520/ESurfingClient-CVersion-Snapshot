@@ -45,6 +45,12 @@ int loggerInit();
  */
 void loggerCleanup();
 
+/**
+ * 获取日志文件路径函数
+ * @return 日志文件路径
+ */
+char* getLogFile();
+
 void loggerLog(LogLevel level, const char* file, int line, const char* format, ...);
 #define LOG_DEBUG(format, ...) \
 loggerLog(LOG_LEVEL_DEBUG, __FILE__, __LINE__, format, ##__VA_ARGS__)
