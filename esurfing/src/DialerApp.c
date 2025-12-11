@@ -75,8 +75,8 @@ int main(const int argc, char* argv[]) {
     {
         LOG_DEBUG("用户名: %s", usr);
         LOG_DEBUG("密码: %s", pwd);
-        LOG_DEBUG("通道: %s", chn ? chn : "默认 (phone)");
-        if (isSmallDevice)
+        LOG_DEBUG("通道: %s", chn);
+        if (isSmallDevice && access("/etc/openwrt_release", F_OK) == 0)
         {
             LOG_DEBUG("小容量设备模式已开启");
         }
