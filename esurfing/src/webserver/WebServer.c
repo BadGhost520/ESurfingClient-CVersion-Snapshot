@@ -3,9 +3,9 @@
 //
 #include <stdio.h>
 
+#include "../headFiles/webserver/mongoose.h"
 #include "../headFiles/utils/PlatformUtils.h"
 #include "../headFiles/utils/CheckAdapters.h"
-#include "../headFiles/webserver/mongoose.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/utils/cJSON.h"
 #include "../headFiles/Options.h"
@@ -107,6 +107,33 @@ static void httpHandler(struct mg_connection *c, const int ev, void *ev_data)
                     "\r\n"
                     "%s",
                     (int)strlen(response), response);
+                return;
+            }
+        }
+
+        if (mg_match(hm->uri, mg_str("/api/getSettings"), NULL))
+        {
+            if (mg_strcmp(hm->method, mg_str("GET")) == 0)
+            {
+                cJSON* settings = cJSON_CreateObject();
+                cJSON_AddStringToObject(settings, "username", usr);
+                cJSON_AddStringToObject(settings, "password", pwd);
+                cJSON_AddStringToObject(settings, "channel", chn);
+                cJSON_AddNumberToObject(settings, "isDebug", isDebug);
+                cJSON_AddNumberToObject(settings, "isSmallDevice", isSmallDevice);
+                char* temp = cJSON_Print(settings);
+                char* response_data = strdup(temp);
+                free(temp);
+
+                mg_printf(c,
+                    "HTTP/1.1 200 OK\r\n"
+                    "Content-Type: application/json\r\n"
+                    "Content-Length: %d\r\n"
+                    "\r\n"
+                    "%s",
+                    (int)strlen(response_data), response_data);
+
+                free(response_data);
                 return;
             }
         }
