@@ -3,6 +3,6 @@
 //
 char* usr;
 char* pwd;
-char* chn;
+char* chn = "phone";
 int isDebug = 0;
 int isSmallDevice = 0;
