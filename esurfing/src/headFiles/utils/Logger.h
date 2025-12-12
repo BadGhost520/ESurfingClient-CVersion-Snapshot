@@ -19,12 +19,6 @@ typedef enum {
     LOG_LEVEL_FATAL = 4
 } LogLevel;
 
-typedef enum {
-    LOG_TARGET_CONSOLE = 1,
-    LOG_TARGET_FILE    = 2,
-    LOG_TARGET_BOTH    = 3
-} LogTarget;
-
 typedef struct {
     LogLevel    level;
     char        logDir[PATH_MAX];
