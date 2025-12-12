@@ -1,5 +1,4 @@
 // 静态内容
-const showPwdBtn = document.getElementById('show-pwd');
 const staticPwdInput = document.getElementById('static-pwd');
 const staticUsrInput = document.getElementById('static-usr');
 const staticChnPC = document.getElementById('static-chn-pc');
@@ -9,20 +8,72 @@ const staticDebugOff = document.getElementById('static-debug-off');
 const staticSmallOn = document.getElementById('static-small-on');
 const staticSmallOff = document.getElementById('static-small-off');
 
-showPwdBtn.addEventListener('click', () => {
-    if (staticPwdInput.type === 'password') {
-        staticPwdInput.type = 'text';
-        showPwdBtn.textContent = '隐藏密码';
-    } else {
-        staticPwdInput.type = 'password';
-        showPwdBtn.textContent = '显示密码';
-    }
-})
 // 模态框
 const settingsModalBtn = document.getElementById('settings-change-btn');
 const settingsModal = document.getElementById('settings-modal');
 const modalContainer = document.getElementById('settings-modal-container');
 const cancelBtn = document.getElementById('settings-cancel');
+const usrInput = document.getElementById('usr');
+const pwdInput = document.getElementById('pwd');
+const chn = document.getElementById('chn');
+const debug = document.getElementById('debug');
+const smallDevice = document.getElementById('smallDevice');
+const channelPCBtn = document.getElementById('channel-pc');
+const channelPhoneBtn = document.getElementById('channel-phone');
+const isDebugOnBtn = document.getElementById('isDebug-on');
+const isDebugOffBtn = document.getElementById('isDebug-off');
+const isSmallDeviceOnBtn = document.getElementById('isSmallDevice-on');
+const isSmallDeviceOffBtn = document.getElementById('isSmallDevice-off');
+
+channelPCBtn.addEventListener('click', () => {
+    chn.value = 'pc';
+    channelPCBtn.classList.add('btnon');
+    channelPhoneBtn.classList.remove('btnon');
+});
+
+channelPhoneBtn.addEventListener('click', () => {
+    chn.value = 'phone';
+    channelPCBtn.classList.remove('btnon');
+    channelPhoneBtn.classList.add('btnon');
+});
+
+isDebugOnBtn.addEventListener('click', () => {
+    debug.value = '1';
+    isDebugOnBtn.classList.add('btnon');
+    isDebugOffBtn.classList.remove('btnon');
+});
+
+isDebugOffBtn.addEventListener('click', () => {
+    debug.value = '0';
+    isDebugOnBtn.classList.remove('btnon');
+    isDebugOffBtn.classList.add('btnon');
+});
+
+isSmallDeviceOnBtn.addEventListener('click', () => {
+    smallDevice.value = '1';
+    isSmallDeviceOnBtn.classList.add('btnon');
+    isSmallDeviceOffBtn.classList.remove('btnon');
+});
+
+isSmallDeviceOffBtn.addEventListener('click', () => {
+    smallDevice.value = '0';
+    isSmallDeviceOnBtn.classList.remove('btnon');
+    isSmallDeviceOffBtn.classList.add('btnon');
+});
+
+function resetModal() {
+    usrInput.value = '';
+    pwdInput.value = '';
+    chn.value = 'phone';
+    debug.value = '0';
+    smallDevice.value = '0';
+    channelPCBtn.classList.remove('btnon');
+    channelPhoneBtn.classList.add('btnon');
+    isDebugOnBtn.classList.remove('btnon');
+    isDebugOffBtn.classList.add('btnon');
+    isSmallDeviceOnBtn.classList.remove('btnon');
+    isSmallDeviceOffBtn.classList.add('btnon');
+}
 
 settingsModalBtn.addEventListener('click', () => {
     if (!settingsModal.classList.contains('modalact')) settingsModal.classList.add('modalact');
@@ -31,14 +82,21 @@ settingsModalBtn.addEventListener('click', () => {
 document.addEventListener('click', e => {
     if ((!modalContainer.contains(e.target) && !settingsModalBtn.contains(e.target) && settingsModal.classList.contains('modalact')) || cancelBtn.contains(e.target)) {
         settingsModal.classList.remove('modalact');
+        resetModal();
     }
 });
 
 // 远程
 async function getSettings() {
-    await fetch('/api/getSettings')
-        .then(res => res.json())
-        .then(data => {
+    await axios({
+        method: 'get',
+        url: '/api/getSettings',
+        timeout: 5000,
+        responseType: 'json',
+        responseEncoding: 'utf-8'
+    })
+        .then(response => {
+            const data = response.data;
             staticUsrInput.value = data.username;
             staticPwdInput.value = data.password;
 
@@ -66,5 +124,52 @@ async function getSettings() {
                 staticSmallOff.classList.add('btnon');
             }
         })
-        .catch(err => console.log(err));
+        .catch(error => {
+            console.error(error);
+        });
 }
+
+// 设置表单提交
+const settingsSubmitBtn = document.getElementById('settings-submit');
+
+async function updateSettings() {
+    await axios({
+        method: 'post',
+        url: 'api/updateSettings',
+        timeout: 5000,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        responseType: 'json',
+        responseEncoding: 'utf-8',
+        data: {
+            settings: {
+                username: usrInput.value,
+                password: pwdInput.value,
+                channel: chn.value,
+                debug: debug.value,
+                smallDevice: smallDevice.value
+            }
+        }
+    })
+        .then(response => {
+            if (response.status === 204) {
+                alert('设置已保存');
+            }
+        })
+        .catch(error => {
+            alert('设置保存失败');
+            console.error(error);
+        });
+}
+
+settingsSubmitBtn.addEventListener('click', () => {
+    updateSettings();
+    resetModal();
+    getSettings();
+    settingsModal.classList.remove('modalact');
+});
+
+window.addEventListener('load', () => {
+    getSettings();
+});

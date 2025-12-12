@@ -8,7 +8,6 @@
 #include "../headFiles/utils/PlatformUtils.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/Options.h"
-#include "../headFiles/States.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -144,7 +143,6 @@ int getExecutableDir(char* out)
 #endif
 }
 
-// TODO
 int ensureLogDir(char* out)
 {
 #ifdef WIN32
@@ -261,12 +259,52 @@ void loggerCleanup()
 
 void loggerWriteToConsole(const char* message)
 {
-#ifdef _WIN32
     printf("%s", message);
-#else
-    printf("%s", message);
-#endif
     fflush(stdout);
+}
+
+LogContent getLog()
+{
+    LogContent result = {NULL, 0};
+    FILE* file = fopen(gLoggerConfig.logFile, "rb");
+
+    if (!file)
+    {
+        perror("Failed to open file");
+        return result;
+    }
+
+    fseek(file, 0, SEEK_END);
+    long file_size = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    if (file_size < 0)
+    {
+        fclose(file);
+        return result;
+    }
+
+    result.data = (char*)malloc(file_size + 1);
+    if (!result.data)
+    {
+        fclose(file);
+        return result;
+    }
+
+    size_t bytes_read = fread(result.data, 1, file_size, file);
+    if (bytes_read != (size_t)file_size)
+    {
+        free(result.data);
+        result.data = NULL;
+    }
+    else
+    {
+        result.data[file_size] = '\0';
+        result.size = file_size;
+    }
+
+    fclose(file);
+    return result;
 }
 
 void loggerWriteToFile(const char* message)
@@ -275,13 +313,7 @@ void loggerWriteToFile(const char* message)
     {
         fprintf(gLoggerConfig.fileHandle, "%s", message);
         fflush(gLoggerConfig.fileHandle);
-        logModTime = currentTimeMillis();
     }
-}
-
-char* getLogFile()
-{
-    return gLoggerConfig.logFile;
 }
 
 void loggerLog(const LogLevel level, const char* file, const int line, const char* format, ...)

@@ -22,7 +22,6 @@ int isWebserverRunning = 0;
 int isSettingsChange = 0;
 
 long long authTime = 0;
-long long logModTime = 0;
 
 char* schoolId;
 char* domain;

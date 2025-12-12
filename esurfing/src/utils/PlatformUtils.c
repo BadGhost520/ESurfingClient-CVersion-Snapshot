@@ -426,4 +426,3 @@ void waitThreadStop(threadHandle thread)
     pthread_join(thread, NULL);
 #endif
 }
-

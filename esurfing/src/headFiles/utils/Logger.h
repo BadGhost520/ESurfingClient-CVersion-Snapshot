@@ -35,6 +35,11 @@ typedef struct {
     size_t      currentLines;
 } LoggerConfig;
 
+typedef struct {
+    char* data;
+    size_t size;
+} LogContent;
+
 /**
  * 初始化日志系统函数
  */
@@ -46,10 +51,10 @@ int loggerInit();
 void loggerCleanup();
 
 /**
- * 获取日志文件路径函数
- * @return 日志文件路径
+ * 获取增量内存日志函数
+ * @return 增量内存日志
  */
-char* getLogFile();
+LogContent getLog();
 
 void loggerLog(LogLevel level, const char* file, int line, const char* format, ...);
 #define LOG_DEBUG(format, ...) \

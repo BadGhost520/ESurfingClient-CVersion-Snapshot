@@ -28,6 +28,13 @@ typedef enum {
     Term = 4
 } XmlChoose;
 
+#ifdef _WIN32
+typedef struct {
+    void *(*threadFunc)(void*);
+    void *arg;
+} ThreadParams;
+#endif
+
 /**
  * 文本转字节函数
  * @param str 文本数据

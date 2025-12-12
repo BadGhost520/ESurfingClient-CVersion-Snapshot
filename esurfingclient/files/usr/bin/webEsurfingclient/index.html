@@ -37,25 +37,37 @@
         <!-- 主页 -->
         <div id="dashboard-content" class="content">
             <div class="title">
-                <div class="blueblock"></div>
-                <div class="title-text">仪表板</div>
+                <div class="title-left">
+                    <div class="blueblock"></div>
+                    <div class="title-text">仪表板</div>
+                </div>
             </div>
         </div>
         <!-- 日志 -->
         <div id="log-content" class="content">
             <div class="title">
-                <div class="blueblock"></div>
-                <div class="title-text">日志</div>
+                <div class="title-left">
+                    <div class="blueblock"></div>
+                    <div class="title-text">日志</div>
+                </div>
+                <div class="switch-container">
+                    <div id="switch-border" class="switch-border">
+                        <div id="switch-circle" class="switch-circle"></div>
+                    </div>
+                    <div class="switch-text">日志自动滚动</div>
+                </div>
             </div>
             <div class="log-scrollbox">
-                <div id="logs" class="logs">无日志输出或 Web 服务器已关闭</div>
+                <div id="logs" class="logs">无日志输出</div>
             </div>
         </div>
         <!-- 设置 -->
         <div id="settings-content" class="content">
             <div class="title">
-                <div class="blueblock"></div>
-                <div class="title-text">设置</div>
+                <div class="title-left">
+                    <div class="blueblock"></div>
+                    <div class="title-text">设置</div>
+                </div>
             </div>
             <div>
                 <div class="form-group readonly-group">
@@ -65,7 +77,6 @@
                 <div class="form-group readonly-group">
                     <label for="static-pwd">密码</label>
                     <input id="static-pwd" type="password" value="123" readonly>
-                    <div id="show-pwd" class="show-pwd">显示密码</div>
                 </div>
                 <div class="form-group radio-group">
                     <label>认证通道</label>
@@ -99,19 +110,19 @@
                     </div>
                     <div class="form-group radio-group">
                         <label>认证通道</label>
-                        <input type="hidden" name="channel" value="phone">
+                        <input id="chn" type="hidden" name="channel" value="phone">
                         <div id="channel-pc" class="choose-btn">PC</div>
                         <div id="channel-phone" class="choose-btn btnon">Phone</div>
                     </div>
                     <div class="form-group radio-group">
                         <label>调试模式</label>
-                        <input type="hidden" name="debug" value="0">
+                        <input id="debug" type="hidden" name="debug" value="0">
                         <div id="isDebug-on" class="choose-btn">开启</div>
                         <div id="isDebug-off" class="choose-btn btnon">关闭</div>
                     </div>
                     <div class="form-group radio-group">
                         <label>小容量设备模式</label>
-                        <input type="hidden" name="smallDevice" value="0">
+                        <input id="smallDevice" type="hidden" name="smallDevice" value="0">
                         <div id="isSmallDevice-on" class="choose-btn">开启</div>
                         <div id="isSmallDevice-off" class="choose-btn btnon">关闭</div>
                     </div>
@@ -125,8 +136,10 @@
         <!-- 关于 -->
         <div id="about-content" class="content">
             <div class="title">
-                <div class="blueblock"></div>
-                <div class="title-text">关于 ESurfingClient</div>
+                <div class="title-left">
+                    <div class="blueblock"></div>
+                    <div class="title-text">关于 ESurfingClient</div>
+                </div>
             </div>
             <div class="about-text">
                 <div>版本 v1.0.6 Release 1</div>
@@ -140,9 +153,10 @@
         </div>
     </div>
     <script src="assets/js/basic.js"></script>
-    <script src="assets/js/getlog.js"></script>
+    <script src="assets/js/log.js"></script>
     <script src="assets/js/settings.js"></script>
     <script src="assets/js/license.js"></script>
+    <script src="assets/export-js/axios.min.js"></script>
 </body>
 
 </html>

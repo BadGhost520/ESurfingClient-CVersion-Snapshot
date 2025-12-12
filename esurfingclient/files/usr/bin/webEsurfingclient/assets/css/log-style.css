@@ -1,3 +1,40 @@
+.switch-container {
+    display: flex;
+    align-items: center;
+}
+
+.switch-border {
+    border: solid 1px #E4E4E4;
+    margin-right: 10px;
+    width: 55px;
+    height: 30px;
+    border-radius: 60px;
+    transition: all 0.2s ease-in-out;
+}
+
+.switch-border.switchon {
+    background-color: #3A50FE;
+}
+
+.switch-circle {
+    background-color: white;
+    border-radius: 50%;
+    width: 29px;
+    height: 29px;
+    border: solid 1px #E4E4E4;
+    transition: all 0.2s ease-in-out;
+}
+
+.switch-circle.switchon {
+    transform: translateX(25px);
+}
+
+.switch-text {
+    font-size: 18px;
+    font-weight: normal;
+    margin-right: 10px;
+}
+
 .log-scrollbox {
     position: absolute;
     top: 70px;
@@ -23,6 +60,8 @@
 }
 
 .logs {
+    -webkit-user-select: text;
+    user-select: text;
     font-family: 'JetBrainsMono', serif;
     font-size: 14px;
     font-weight: normal;

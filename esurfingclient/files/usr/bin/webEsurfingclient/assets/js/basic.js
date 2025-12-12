@@ -82,7 +82,6 @@ log.addEventListener('click', () => {
 settings.addEventListener('click', () => {
     clearActive();
     toggleSettings();
-    getSettings();
 });
 
 about.addEventListener('click', () => { 
