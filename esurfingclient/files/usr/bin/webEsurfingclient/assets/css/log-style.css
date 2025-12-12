@@ -12,6 +12,11 @@
     transition: all 0.2s ease-in-out;
 }
 
+.switch-border.short {
+    width: 40px;
+    height: 20px;
+}
+
 .switch-border.switchon {
     background-color: #3A50FE;
 }
@@ -25,14 +30,28 @@
     transition: all 0.2s ease-in-out;
 }
 
+.switch-circle.short {
+    width: 19px;
+    height: 19px;
+}
+
 .switch-circle.switchon {
     transform: translateX(25px);
 }
 
+.switch-circle.switchon.short {
+    transform: translateX(20px);
+}
+
 .switch-text {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: normal;
     margin-right: 10px;
+}
+
+.switch-text.short {
+    font-size: 14px;
+    margin-right: 5px;
 }
 
 .log-scrollbox {
