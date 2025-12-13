@@ -7,13 +7,6 @@
 #include <stdio.h>
 #include <time.h>
 
-#include "../headFiles/utils/PlatformUtils.h"
-#include "../headFiles/utils/Shutdown.h"
-#include "../headFiles/utils/Logger.h"
-#include "../headFiles/Constants.h"
-#include "../headFiles/Options.h"
-#include "../headFiles/States.h"
-
 #ifdef _WIN32
 
 #include <sysinfoapi.h>
@@ -31,6 +24,13 @@
 #include <time.h>
 
 #endif
+
+#include "../headFiles/utils/PlatformUtils.h"
+#include "../headFiles/utils/Shutdown.h"
+#include "../headFiles/utils/Logger.h"
+#include "../headFiles/Constants.h"
+#include "../headFiles/Options.h"
+#include "../headFiles/States.h"
 
 ByteArray stringToBytes(const char* str)
 {

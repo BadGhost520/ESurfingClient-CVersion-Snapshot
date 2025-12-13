@@ -1,6 +1,6 @@
-//
-// Created by bad_g on 2025/12/10.
-//
+#include <string.h>
+#include <stdio.h>
+
 #ifdef _WIN32
 
 #include <winsock2.h>
@@ -16,9 +16,6 @@
 #include <ifaddrs.h>
 
 #endif
-
-#include <string.h>
-#include <stdio.h>
 
 #include "../headFiles/utils/cJSON.h"
 #include "../headFiles/States.h"
