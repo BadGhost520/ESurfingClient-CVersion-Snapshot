@@ -111,11 +111,7 @@ void initialize(const ByteArray* zsm)
 {
     LOG_DEBUG("开始初始化会话");
     if (load(zsm))
-    {
         isInitialized = 1;
-    }
     else
-    {
         isInitialized = 0;
-    }
 }
