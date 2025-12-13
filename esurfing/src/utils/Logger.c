@@ -2,18 +2,22 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-#include "../headFiles/utils/PlatformUtils.h"
-#include "../headFiles/utils/Logger.h"
-#include "../headFiles/Options.h"
-
 #ifdef _WIN32
+
 #include <windows.h>
 #include <io.h>
+
 #else
+
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
+
 #endif
+
+#include "../headFiles/utils/PlatformUtils.h"
+#include "../headFiles/utils/Logger.h"
+#include "../headFiles/Options.h"
 
 #ifdef _WIN32
     const char sep = '\\';
