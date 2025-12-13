@@ -44,6 +44,7 @@ endef
 define Package/esurfingclient/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(CP) $(PKG_INSTALL_DIR)/usr/bin/ESurfingClient $(1)/usr/bin/
+	$(CP) -r $(PKG_INSTALL_DIR)/usr/bin/webEsurfingclient $(1)/usr/bin/
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/etc/init.d/esurfingclient.init $(1)/etc/init.d/esurfingclient
