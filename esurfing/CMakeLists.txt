@@ -356,4 +356,6 @@ target_compile_options(ESurfingClient PRIVATE -s)
 target_compile_options(ESurfingClient PRIVATE -O3)
 set_target_properties(ESurfingClient PROPERTIES LINK_FLAGS "-Wl,--strip-all")
 
-add_dependencies(ESurfingClient syncWebRoot)
+if(NOT CMAKE_C_COMPILER MATCHES "openwrt")
+    add_dependencies(ESurfingClient syncWebRoot)
+endif()
