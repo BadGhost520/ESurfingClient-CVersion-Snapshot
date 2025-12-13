@@ -1,6 +1,7 @@
 #ifndef PLATFORMUTILS_H
 #define PLATFORMUTILS_H
 
+#include <pthread.h>
 #include <stdint.h>
 
 typedef struct {

@@ -1,3 +1,4 @@
+#include <curl/curl.h>
 #include <pthread.h>
 #include <string.h>
 #include <stdlib.h>
