@@ -8,12 +8,12 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-if(WIN32 OR UNIX)
-add_custom_target(syncWebRoot ALL
-        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/webEsurfingclient
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/../esurfingclient/files/usr/bin/webEsurfingclient ${CMAKE_BINARY_DIR}/webEsurfingclient
-        COMMENT "sync web root"
-)
+if(NOT CMAKE_C_COMPILER MATCHES "openwrt")
+    add_custom_target(syncWebRoot ALL
+            COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/webEsurfingclient
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/../esurfingclient/files/usr/bin/webEsurfingclient ${CMAKE_BINARY_DIR}/webEsurfingclient
+            COMMENT "sync web root"
+    )
 endif()
 
 find_package(CURL REQUIRED)
