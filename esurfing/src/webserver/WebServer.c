@@ -199,7 +199,7 @@ void* webServerMain()
     mg_mgr_init(&mgr);
     mg_http_listen(&mgr, listenAddr, fn, NULL);
 
-    LOG_INFO("Web 服务器已启动，后台访问地址: http://127.0.0.1:8888");
+    LOG_INFO("Web 服务器已启动，后台访问地址: http://127.0.0.1:8888/");
 
     isWebserverRunning = 1;
     while (isWebserverRunning) mg_mgr_poll(&mgr, 1000);

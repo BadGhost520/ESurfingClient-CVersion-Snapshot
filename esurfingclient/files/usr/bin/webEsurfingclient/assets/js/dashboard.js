@@ -93,8 +93,10 @@ async function getAdapterInfo() {
         .then(response => {
             const data = response.data;
             const adapterInfo = document.getElementById('adapter-info');
+            const deviceAdapterContainer = document.getElementById('device-adapter-container');
             adapterInfo.innerHTML = '';
             let count = 1;
+            let height = 0;
             for (const adapter of data.adapters) {
                 if (adapter.name.includes('Virtual') || adapter.name.includes('docker')) continue;
                 if (adapter.ip !== '0.0.0.0') {
