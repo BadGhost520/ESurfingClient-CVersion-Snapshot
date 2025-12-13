@@ -1,10 +1,7 @@
-//
-// Created by bad_g on 2025/9/23.
-//
-#include <stdio.h>
-#include <string.h>
 #include <openssl/evp.h>
 #include <curl/curl.h>
+#include <string.h>
+#include <stdio.h>
 
 #include "headFiles/utils/PlatformUtils.h"
 #include "headFiles/utils/Logger.h"

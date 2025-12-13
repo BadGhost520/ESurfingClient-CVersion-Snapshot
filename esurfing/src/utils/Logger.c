@@ -1,22 +1,23 @@
-//
-// Created by bad_g on 2025/9/28.
-//
 #include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>
 
+#ifdef _WIN32
+
+#include <windows.h>
+#include <io.h>
+
+#else
+
+#include <sys/stat.h>
+#include <unistd.h>
+#include <errno.h>
+
+#endif
+
 #include "../headFiles/utils/PlatformUtils.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/Options.h"
-
-#ifdef _WIN32
-#include <windows.h>
-#include <io.h>
-#else
-#include <unistd.h>
-#include <sys/stat.h>
-#include <errno.h>
-#endif
 
 #ifdef _WIN32
     const char sep = '\\';

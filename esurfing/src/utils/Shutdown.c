@@ -1,10 +1,9 @@
-#include "../headFiles/utils/Shutdown.h"
-
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
 
 #include "../headFiles/cipher/CipherInterface.h"
+#include "../headFiles/utils/Shutdown.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/Session.h"
 #include "../headFiles/States.h"
