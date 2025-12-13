@@ -38,44 +38,26 @@ ByteArray stringToBytes(const char* str)
     if (!str) return ba;
     ba.length = strlen(str);
     ba.data = (unsigned char*)malloc(ba.length);
-    if (ba.data)
-    {
-        memcpy(ba.data, str, ba.length);
-    }
+    if (ba.data) memcpy(ba.data, str, ba.length);
     return ba;
 }
 
 char* XmlParser(const char* xmlData, const char* tag)
 {
-    if (!xmlData || !tag)
-    {
-        return NULL;
-    }
+    if (!xmlData || !tag) return NULL;
     char start_tag[256];
     snprintf(start_tag, sizeof(start_tag), "<%s>", tag);
     char end_tag[256];
     snprintf(end_tag, sizeof(end_tag), "</%s>", tag);
     const char* start_pos = strstr(xmlData, start_tag);
-    if (!start_pos)
-    {
-        return NULL;
-    }
+    if (!start_pos) return NULL;
     start_pos += strlen(start_tag);
     const char* end_pos = strstr(start_pos, end_tag);
-    if (!end_pos)
-    {
-        return NULL;
-    }
+    if (!end_pos) return NULL;
     const size_t content_length = end_pos - start_pos;
-    if (content_length <= 0) 
-    {
-        return NULL;
-    }
+    if (content_length <= 0) return NULL;
     char* content = malloc(content_length + 1);
-    if (!content)
-    {
-        return NULL;
-    }
+    if (!content) return NULL;
     strncpy(content, start_pos, content_length);
     content[content_length] = '\0';
     return content;
@@ -83,37 +65,16 @@ char* XmlParser(const char* xmlData, const char* tag)
 
 int stringToLongLong(const char* str, long long* result)
 {
-    if (!str || !result)
-    {
-        return 0;
-    }
-    while (isspace(*str))
-    {
-        str++;
-    }
-    if (*str == '\0')
-    {
-        return 0;
-    }
+    if (!str || !result) return 0;
+    while (isspace(*str)) str++;
+    if (*str == '\0') return 0;
     char* endptr;
     errno = 0;
     const long long value = strtoll(str, &endptr, 10);
-    if (errno == ERANGE)
-    {
-        return 0;
-    }
-    if (endptr == str)
-    {
-        return 0;
-    }
-    while (isspace(*endptr))
-    {
-        endptr++;
-    }
-    if (*endptr != '\0')
-    {
-        return 0;
-    }
+    if (errno == ERANGE) return 0;
+    if (endptr == str) return 0;
+    while (isspace(*endptr)) endptr++;
+    if (*endptr != '\0') return 0;
     *result = value;
     return 1;
 }
@@ -137,9 +98,7 @@ int64_t currentTimeMillis()
     return (int64_t)(uli.QuadPart / 10000LL - 11644473600000LL);
 #else
     struct timeval tv;
-    if (gettimeofday(&tv, NULL) != 0) {
-        return -1;
-    }
+    if (gettimeofday(&tv, NULL) != 0) return -1;
     return (int64_t)(tv.tv_sec * 1000LL + tv.tv_usec / 1000LL);
 #endif
 }
@@ -148,19 +107,13 @@ static int secureRandomBytes(unsigned char* buffer, size_t length)
 {
 #ifdef _WIN32
     HCRYPTPROV hCryptProv;
-    if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
-    {
-        return 0;
-    }
+    if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT)) return 0;
     const BOOL result = CryptGenRandom(hCryptProv, length, buffer);
     CryptReleaseContext(hCryptProv, 0);
     return result ? 1 : 0;
 #else
     int fd = open("/dev/urandom", O_RDONLY);
-    if (fd == -1)
-    {
-        return 0;
-    }
+    if (fd == -1) return 0;
     ssize_t bytesRead = read(fd, buffer, length);
     close(fd);
     return (bytesRead == (ssize_t)length) ? 1 : 0;
@@ -194,10 +147,7 @@ char* setClientId()
             randomBytes[10], randomBytes[11],
             randomBytes[12],randomBytes[13],
             randomBytes[14], randomBytes[15]);
-        for (int i = 0; client_id[i]; i++)
-        {
-            client_id[i] = (char)tolower((unsigned char)client_id[i]);
-        }
+        for (int i = 0; client_id[i]; i++) client_id[i] = (char)tolower((unsigned char)client_id[i]);
     }
     return client_id;
 }
@@ -205,10 +155,7 @@ char* setClientId()
 char* randomMacAddress()
 {
     char* macStr = malloc(18 * sizeof(char));
-    if (macStr == NULL)
-    {
-        return NULL;
-    }
+    if (macStr == NULL) return NULL;
     unsigned char macBytes[6];
     secureRandomBytes(macBytes, 6);
     macBytes[0] = macBytes[0] & 0xFEU;
@@ -219,10 +166,7 @@ char* randomMacAddress()
 char* randomString()
 {
     char* str = malloc(18 * sizeof(char));
-    if (str == NULL)
-    {
-        return NULL;
-    }
+    if (str == NULL) return NULL;
     unsigned char strBytes[10];
     secureRandomBytes(strBytes, 10);
     strBytes[0] = strBytes[0] & 0xFEU;
@@ -234,10 +178,7 @@ char* getTime()
 {
     time_t rawTime;
     char* timeStr = malloc(20 * sizeof(char));
-    if (timeStr == NULL)
-    {
-        return NULL;
-    }
+    if (timeStr == NULL) return NULL;
     time(&rawTime);
     const struct tm* timeInfo = localtime(&rawTime);
     strftime(timeStr, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
@@ -248,10 +189,7 @@ char* getFileTime()
 {
     time_t rawTime;
     char* timeStr = malloc(20 * sizeof(char));
-    if (timeStr == NULL)
-    {
-        return NULL;
-    }
+    if (timeStr == NULL) return NULL;
     time(&rawTime);
     const struct tm* timeInfo = localtime(&rawTime);
     strftime(timeStr, 20, "%Y%m%d-%H%M%S", timeInfo);
@@ -261,10 +199,7 @@ char* getFileTime()
 char* createXMLPayload(const XmlChoose choose)
 {
     char* xml = malloc(1024);
-    if (xml == NULL)
-    {
-        return NULL;
-    }
+    if (xml == NULL) return NULL;
     char* currentTime = getTime();
     if (currentTime == NULL)
     {
@@ -352,16 +287,10 @@ char* cleanCDATA(const char* text)
     const char* cdataStart = "<![CDATA[";
     const char* cdataEnd = "]]>";
     const char* start = strstr(text, cdataStart);
-    if (!start)
-    {
-        return strdup(text);
-    }
+    if (!start) return strdup(text);
     start += strlen(cdataStart);
     const char* end = strstr(start, cdataEnd);
-    if (!end)
-    {
-        return strdup(text);
-    }
+    if (!end) return strdup(text);
     const size_t len = end - start;
     if (len <= 0) return NULL;
     char* result = malloc(len + 1);
