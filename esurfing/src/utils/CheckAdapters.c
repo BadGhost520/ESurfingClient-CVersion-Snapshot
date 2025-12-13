@@ -42,16 +42,14 @@ char* getAdapterJSON()
     if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == NO_ERROR)
     {
         pAdapter = pAdapterInfo;
-        int count = 1;
         while (pAdapter)
         {
+
             cJSON* adapter = cJSON_CreateObject();
-            cJSON_AddNumberToObject(adapter, "count", count);
             cJSON_AddStringToObject(adapter, "name", pAdapter->Description);
             cJSON_AddStringToObject(adapter, "ip", pAdapter->IpAddressList.IpAddress.String);
             cJSON_AddItemToArray(adapters, adapter);
             pAdapter = pAdapter->Next;
-            count++;
         }
     }
     if (pAdapterInfo) free(pAdapterInfo);
@@ -60,7 +58,6 @@ char* getAdapterJSON()
 
     if (getifaddrs(&ifaddrs_ptr) == 0)
     {
-        int count = 1;
         for (ifa = ifaddrs_ptr; ifa; ifa = ifa->ifa_next)
         {
             if (ifa->ifa_addr && ifa->ifa_addr->sa_family == AF_INET && strcmp(ifa->ifa_name, "lo") != 0)
@@ -69,11 +66,9 @@ char* getAdapterJSON()
                 char ip[INET_ADDRSTRLEN];
                 inet_ntop(AF_INET, &addr->sin_addr, ip, sizeof(ip));
                 cJSON* adapter = cJSON_CreateObject();
-                cJSON_AddNumberToObject(adapter, "count", count);
                 cJSON_AddStringToObject(adapter, "name", ifa->ifa_name);
                 cJSON_AddStringToObject(adapter, "ip", ip);
                 cJSON_AddItemToArray(adapters, adapter);
-                count++;
             }
         }
         freeifaddrs(ifaddrs_ptr);

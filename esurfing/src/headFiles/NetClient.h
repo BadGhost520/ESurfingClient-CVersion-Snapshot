@@ -5,15 +5,11 @@
 #ifndef ESURFINGCLIENT_NETCLIENT_H
 #define ESURFINGCLIENT_NETCLIENT_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef enum {
+    RequestError = 0,
     RequestSuccess = 1,
     RequestAuthorization = 2,
-    RequestError = 3,
-    InitError = 4
+    InitError = 3
 } NetworkStatus;
 
 typedef struct {
@@ -29,7 +25,7 @@ typedef struct {
 void freeResult(HTTPResponse* result);
 
 /**
- * POST 函数
+ * 简单 POST 函数
  * @param url 网址
  * @param data 数据
  * @return 网络返回值
@@ -42,8 +38,11 @@ HTTPResponse* simPost(const char* url, const char* data);
  */
 NetworkStatus checkNetworkStatus();
 
-#ifdef __cplusplus
-}
-#endif
+/**
+ * 简单 GET 函数
+ * @param url 网址
+ * @return 网络状态
+ */
+NetworkStatus simGet(char* url);
 
 #endif //ESURFINGCLIENT_NETCLIENT_H

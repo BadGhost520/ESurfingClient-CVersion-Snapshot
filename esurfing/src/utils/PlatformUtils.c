@@ -8,15 +8,16 @@
 #include <ctype.h>
 #include <stdint.h>
 #include <errno.h>
+#include <pthread.h>
 
 #include "../headFiles/utils/PlatformUtils.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/Constants.h"
 #include "../headFiles/Options.h"
 #include "../headFiles/States.h"
+#include "../headFiles/utils/Shutdown.h"
 
 #ifdef _WIN32
-    #include <process.h>
     #include <windows.h>
     #include <wincrypt.h>
     #include <sysinfoapi.h>
@@ -114,6 +115,14 @@ int stringToLongLong(const char* str, long long* result)
     }
     *result = value;
     return 1;
+}
+
+char* longLongToString(const long long num)
+{
+    char* result = malloc(32);
+    if (!result) return NULL;
+    snprintf(result, 32, "%lld", num);
+    return result;
 }
 
 int64_t currentTimeMillis()
@@ -391,38 +400,17 @@ void createBash()
     LOG_INFO("一键配置脚本创建成功, 位于: %s", filename);
 }
 
-#ifdef _WIN32
-static unsigned __stdcall threadWrapper(void *arg)
+void createThread(void*(* func)(void*), void* arg)
 {
-    void **args = arg;
-    void *(*thread_func)(void *) = args[0];
-    void *threadArg = args[1];
-    free(args);
-    thread_func(threadArg);
-    return 0;
-}
-#endif
-
-threadHandle createThread(void* (*threadFunc)(void*), void* arg)
-{
-#ifdef _WIN32
-    void **wrapperArgs = malloc(sizeof(void *) * 2);
-    wrapperArgs[0] = threadFunc;
-    wrapperArgs[1] = arg;
-    return (HANDLE)_beginthreadex(NULL, 0, threadWrapper, wrapperArgs, 0, NULL);
-#else
-    threadHandle thread;
-    pthread_create(&thread, NULL, threadFunc, arg);
-    return thread;
-#endif
+    webServerStatus = pthread_create(&webServerThread, NULL, func, &arg);
+    if (webServerStatus != 0)
+    {
+        LOG_FATAL("web 线程创建失败");
+        shut(webServerStatus);
+    }
 }
 
-void waitThreadStop(threadHandle thread)
+void waitThreadStop(const pthread_t thread)
 {
-#ifdef _WIN32
-    WaitForSingleObject(thread, INFINITE);
-    CloseHandle(thread);
-#else
     pthread_join(thread, NULL);
-#endif
 }

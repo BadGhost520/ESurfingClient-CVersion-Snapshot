@@ -3,13 +3,16 @@
 //
 #include <stdio.h>
 
-#include "../headFiles/webserver/mongoose.h"
+#include "../headFiles/NetClient.h"
 #include "../headFiles/utils/PlatformUtils.h"
 #include "../headFiles/utils/CheckAdapters.h"
+#include "../headFiles/webserver/mongoose.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/utils/cJSON.h"
 #include "../headFiles/Options.h"
 #include "../headFiles/States.h"
+
+#define VERSION "v2.1.0-r1"
 
 const char* listenAddr = "http://0.0.0.0:8888";
 
@@ -35,7 +38,7 @@ static void fn(struct mg_connection *c, const int ev, void *ev_data)
             // 获取内存日志内容
             if (mg_match(hm->uri, mg_str("/api/getLogs"), NULL))
             {
-                LogContent response = getLog();
+                const LogContent response = getLog();
                 mg_http_reply(c,
                     200,
                     "Content-Type: text/plain;charset=utf-8\r\n",
@@ -54,6 +57,7 @@ static void fn(struct mg_connection *c, const int ev, void *ev_data)
                 cJSON_AddNumberToObject(settings, "smallDevice", isSmallDevice);
                 char* temp = cJSON_Print(settings);
                 char* response = strdup(temp);
+                cJSON_Delete(settings);
                 free(temp);
                 mg_http_reply(c,
                     200,
@@ -62,8 +66,54 @@ static void fn(struct mg_connection *c, const int ev, void *ev_data)
                     response);
                 free(response);
             }
-            // 获取当前状态
-            else if (mg_match(hm->uri, mg_str("/api/getStatus"), NULL))
+            // 获取联网状态
+            else if (mg_match(hm->uri, mg_str("/api/getNetworkStatus"), NULL))
+            {
+                switch (simGet("http://www.baidu.com"))
+                {
+                case RequestSuccess:
+                    isConnected = 1;
+                    if (connectTime == 0) connectTime = currentTimeMillis();
+                    break;
+                default:
+                    isConnected = 0;
+                    connectTime = 0;
+                }
+                cJSON* status = cJSON_CreateObject();
+                cJSON_AddNumberToObject(status, "isConnected", isConnected);
+                cJSON_AddStringToObject(status, "connectTime", longLongToString(connectTime));
+                char* temp = cJSON_Print(status);
+                char* response = strdup(temp);
+                cJSON_Delete(status);
+                free(temp);
+                mg_http_reply(c,
+                    200,
+                    "Content-Type: application/json;charset=utf-8\r\n",
+                    "%s",
+                    response);
+                free(response);
+            }
+            // 获取软件状态
+            else if (mg_match(hm->uri, mg_str("/api/getSoftwareStatus"), NULL))
+            {
+                cJSON* status = cJSON_CreateObject();
+                cJSON_AddNumberToObject(status, "isRunning", isRunning);
+                cJSON_AddNumberToObject(status, "isLogged", isLogged);
+                cJSON_AddStringToObject(status, "authTime", longLongToString(authTime));
+                cJSON_AddStringToObject(status, "version", VERSION);
+                char* temp = cJSON_Print(status);
+                char* response = strdup(temp);
+                cJSON_Delete(status);
+                free(temp);
+                mg_http_reply(c,
+                    200,
+                    "Content-Type: application/json;charset=utf-8\r\n",
+                    "%s",
+                    response);
+                free(response);
+            }
+            // 获取适配器状态
+            else if (mg_match(hm->uri, mg_str("/api/getAdapterInfo"), NULL))
             {
                 char* response = getAdapterJSON();
                 mg_http_reply(c,
@@ -84,13 +134,14 @@ static void fn(struct mg_connection *c, const int ev, void *ev_data)
                 cJSON* jsonData = cJSON_Parse(body.buf);
                 if (jsonData)
                 {
-                    const cJSON* settings = cJSON_GetObjectItem(jsonData, "settings");
-                    if (settings == NULL)
+                    cJSON* settings = cJSON_GetObjectItem(jsonData, "settings");
+                    if (!settings)
                     {
                         mg_http_reply(c,
                             400,
                             "Content-Type: text/plain;charset=utf-8\r\n",
                             "设置更新失败");
+                        cJSON_Delete(jsonData);
                     }
                     else
                     {
@@ -119,6 +170,7 @@ static void fn(struct mg_connection *c, const int ev, void *ev_data)
                         {
                             isSmallDevice = smallDevice->valueint;
                         }
+                        cJSON_Delete(settings);
                         cJSON_Delete(jsonData);
                         isSettingsChange = 1;
                         mg_http_reply(c,
@@ -136,12 +188,12 @@ static void fn(struct mg_connection *c, const int ev, void *ev_data)
                 }
             }
         }
-        struct mg_http_serve_opts opts = {.root_dir = "./webEsurfingclient", .fs = &mg_fs_posix};
+        const struct mg_http_serve_opts opts = {.root_dir = "./webEsurfingclient", .fs = &mg_fs_posix};
         mg_http_serve_dir(c, hm, &opts);
     }
 }
 
-void* webServerThread()
+void* webServerMain()
 {
     struct mg_mgr mgr;
     mg_mgr_init(&mgr);
@@ -157,9 +209,9 @@ void* webServerThread()
     return 0;
 }
 
-threadHandle startWebServer()
+void startWebServer()
 {
-    return createThread(webServerThread, NULL);
+    createThread(webServerMain, NULL);
 }
 
 void stopWebServer()

@@ -303,3 +303,32 @@ NetworkStatus checkNetworkStatus()
     if (response_data.data) free(response_data.data);
     return RequestSuccess;
 }
+
+NetworkStatus simGet(char* url)
+{
+    CURL* curl = curl_easy_init();
+    if (!curl)
+    {
+        LOG_ERROR("curl 初始化失败");
+        return InitError;
+    }
+    curl_easy_setopt(curl, CURLOPT_URL, url);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
+    curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
+    const CURLcode res = curl_easy_perform(curl);
+    long response_code = 0;
+    if (res != CURLE_OK)
+    {
+        curl_easy_cleanup(curl);
+        const char* error_msg = curl_easy_strerror(res);
+        LOG_ERROR("HTTP 请求错误: %s (错误码: %d)", error_msg, res);
+        return RequestError;
+    }
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
+    curl_easy_cleanup(curl);
+    if (response_code >= 200 && response_code < 300)
+    {
+        return RequestSuccess;
+    }
+    return RequestError;
+}

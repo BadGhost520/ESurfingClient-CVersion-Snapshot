@@ -11,8 +11,9 @@ async function updateLogs() {
         responseEncoding: 'utf-8'
     })
         .then(response => {
-            if (response.data !== '') {
-                logs.innerHTML = response.data;
+            const data = response.data;
+            if (data !== '') {
+                logs.innerHTML = data;
                 if (isScrollEnabled) {
                     const scrollBox = logs.parentElement;
                     scrollBox.scrollTop = scrollBox.scrollHeight;

@@ -8,14 +8,6 @@
 
 #include <stdint.h>
 
-#ifdef _WIN32
-#include <windows.h>
-typedef HANDLE threadHandle;
-#else
-#include <pthread.h>
-typedef pthread_t threadHandle;
-#endif
-
 typedef struct {
     unsigned char* data;
     size_t length;
@@ -27,13 +19,6 @@ typedef enum {
     Heartbeat = 3,
     Term = 4
 } XmlChoose;
-
-#ifdef _WIN32
-typedef struct {
-    void *(*threadFunc)(void*);
-    void *arg;
-} ThreadParams;
-#endif
 
 /**
  * 文本转字节函数
@@ -57,6 +42,13 @@ char* XmlParser(const char* xmlData, const char* tag);
  * @return 是否成功
  */
 int stringToLongLong(const char* str, long long* result);
+
+/**
+ * 64位长整型转换为字符串函数
+ * @param num 要转换的64位长整型
+ * @return 转换后的字符串
+ */
+char* longLongToString(long long num);
 
 /**
  * 获取当前时间的毫秒时间戳函数
@@ -121,16 +113,12 @@ void createBash();
 
 /**
  * 创建线程函数
- * @param threadFunc 线程函数
- * @param arg 线程参数
- * @return 线程句柄
  */
-threadHandle createThread(void *(*threadFunc)(void *), void *arg);
+void createThread(void*(* func)(void*), void* arg);
 
 /**
  * 等待线程结束函数
- * @param thread 线程句柄
  */
-void waitThreadStop(threadHandle thread);
+void waitThreadStop();
 
 #endif // PLATFORMUTILS_H

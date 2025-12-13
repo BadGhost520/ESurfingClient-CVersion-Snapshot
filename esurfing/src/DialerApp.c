@@ -4,8 +4,8 @@
 #include <string.h>
 
 #include "headFiles/cipher/CipherInterface.h"
-#include "headFiles/utils/PlatformUtils.h"
 #include "headFiles/webserver/WebServer.h"
+#include "headFiles/utils/PlatformUtils.h"
 #include "headFiles/utils/Shutdown.h"
 #include "headFiles/utils/Logger.h"
 #include "headFiles/Constants.h"
@@ -115,7 +115,7 @@ int main(const int argc, char* argv[]) {
         refreshStates();
         LOG_INFO("程序启动中");
         sleepMilliseconds(5000);
-        webServerInstance = startWebServer();
+        startWebServer();
         while (isRunning)
         {
             if (currentTimeMillis() - authTime >= 172200000 && authTime != 0)

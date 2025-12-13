@@ -3,6 +3,7 @@
 //
 #include <string.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 #include "headFiles/utils/PlatformUtils.h"
 #include "headFiles/utils/Logger.h"
@@ -15,13 +16,16 @@ char* ticket;
 char* userIp;
 char* acIp;
 
+int isConnected = 0;
 int isRunning = 0;
 int isLogged = 0;
 int isInitialized = 0;
 int isWebserverRunning = 0;
 int isSettingsChange = 0;
+int webServerStatus = 0;
 
-long long authTime = 0;
+int64_t authTime = 0;
+int64_t connectTime = 0;
 
 char* schoolId;
 char* domain;
@@ -29,7 +33,7 @@ char* area;
 char* ticketUrl;
 char* authUrl;
 
-threadHandle webServerInstance;
+pthread_t webServerThread;
 
 void refreshStates()
 {

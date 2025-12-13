@@ -219,6 +219,10 @@ void run()
         LOG_ERROR("网络错误");
         sleepMilliseconds(5000);
         break;
+    case InitError:
+        LOG_ERROR("初始化错误");
+        sleepMilliseconds(5000);
+        break;
     default:
         LOG_ERROR("未知错误");
         sleepMilliseconds(5000);

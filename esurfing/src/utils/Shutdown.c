@@ -15,7 +15,7 @@ void performCleanup()
 {
     LOG_DEBUG("执行关闭函数");
     stopWebServer();
-    waitThreadStop(webServerInstance);
+    waitThreadStop(webServerThread);
     if (isRunning)
     {
         isRunning = 0;

@@ -5,13 +5,10 @@
 #ifndef ESURFINGCLIENT_WEBSERVER_H
 #define ESURFINGCLIENT_WEBSERVER_H
 
-#include "../utils/PlatformUtils.h"
-
 /**
  * 启动Web服务器（在单独的线程中）
- * @return 线程句柄
  */
-threadHandle startWebServer();
+void startWebServer();
 
 /**
  * 停止Web服务器
