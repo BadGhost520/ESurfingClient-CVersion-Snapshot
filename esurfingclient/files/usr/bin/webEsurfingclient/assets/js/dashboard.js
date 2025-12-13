@@ -93,12 +93,19 @@ async function getAdapterInfo() {
         .then(response => {
             const data = response.data;
             const adapterInfo = document.getElementById('adapter-info');
-            const deviceAdapterContainer = document.getElementById('device-adapter-container');
+            const schoolNetworkStatus = document.getElementById('school-network-status');
             adapterInfo.innerHTML = '';
             let count = 1;
             let height = 0;
             for (const adapter of data.adapters) {
                 if (adapter.name.includes('Virtual') || adapter.name.includes('docker')) continue;
+                if (adapter.ip.includes('172.19')) {
+                    schoolNetworkStatus.textContent = '已连接';
+                    schoolNetworkStatus.style.color = 'green';
+                } else {
+                    schoolNetworkStatus.textContent = '未连接';
+                    schoolNetworkStatus.style.color = 'red';
+                }
                 if (adapter.ip !== '0.0.0.0') {
                     adapterInfo.innerHTML += `
                         <div>
