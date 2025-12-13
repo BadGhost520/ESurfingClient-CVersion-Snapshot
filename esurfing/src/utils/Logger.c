@@ -1,6 +1,3 @@
-//
-// Created by bad_g on 2025/9/28.
-//
 #include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -13,8 +10,8 @@
 #include <windows.h>
 #include <io.h>
 #else
-#include <unistd.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <errno.h>
 #endif
 

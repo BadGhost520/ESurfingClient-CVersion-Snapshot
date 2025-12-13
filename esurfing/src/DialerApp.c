@@ -1,7 +1,7 @@
 #include <locale.h>
-#include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "headFiles/cipher/CipherInterface.h"
 #include "headFiles/webserver/WebServer.h"
@@ -18,10 +18,7 @@ void restart()
 {
     if (isInitialized)
     {
-        if (isLogged)
-        {
-            term();
-        }
+        if (isLogged) term();
         cipherFactoryDestroy();
         sessionFree();
     }

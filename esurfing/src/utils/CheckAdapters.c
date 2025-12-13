@@ -9,16 +9,16 @@
 
 #else
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <ifaddrs.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
 #include <arpa/inet.h>
+#include <sys/types.h>
+#include <ifaddrs.h>
 
 #endif
 
-#include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "../headFiles/utils/cJSON.h"
 #include "../headFiles/States.h"

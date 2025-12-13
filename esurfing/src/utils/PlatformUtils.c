@@ -1,34 +1,35 @@
-//
-// Created by bad_g on 2025/9/14.
-//
-#include <stdio.h>
-#include <time.h>
+#include <pthread.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <stdint.h>
+#include <ctype.h>
 #include <errno.h>
-#include <pthread.h>
+#include <stdio.h>
+#include <time.h>
 
 #include "../headFiles/utils/PlatformUtils.h"
+#include "../headFiles/utils/Shutdown.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/Constants.h"
 #include "../headFiles/Options.h"
 #include "../headFiles/States.h"
-#include "../headFiles/utils/Shutdown.h"
 
 #ifdef _WIN32
-    #include <windows.h>
-    #include <wincrypt.h>
-    #include <sysinfoapi.h>
-    #include <io.h>
+
+#include <sysinfoapi.h>
+#include <wincrypt.h>
+#include <windows.h>
+#include <io.h>
+
 #else
-    #include <unistd.h>
-    #include <time.h>
-    #include <fcntl.h>
-    #include <sys/types.h>
-    #include <sys/time.h>
-    #include <sys/stat.h>
+
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <time.h>
+
 #endif
 
 ByteArray stringToBytes(const char* str)

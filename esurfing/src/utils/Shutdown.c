@@ -1,11 +1,9 @@
-#include "../headFiles/utils/Shutdown.h"
-
 #include <signal.h>
-#include <unistd.h>
 #include <stdlib.h>
 
 #include "../headFiles/cipher/CipherInterface.h"
 #include "../headFiles/webserver/WebServer.h"
+#include "../headFiles/utils/Shutdown.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/Session.h"
 #include "../headFiles/States.h"
@@ -14,18 +12,15 @@
 void performCleanup()
 {
     LOG_DEBUG("执行关闭函数");
-    stopWebServer();
-    waitThreadStop(webServerThread);
-    if (isRunning)
+    if (isWebserverRunning)
     {
-        isRunning = 0;
+        stopWebServer();
+        waitThreadStop(webServerThread);
     }
+    if (isRunning) isRunning = 0;
     if (isInitialized)
     {
-        if (isLogged)
-        {
-            term();
-        }
+        if (isLogged) term();
         cipherFactoryDestroy();
         sessionFree();
     }

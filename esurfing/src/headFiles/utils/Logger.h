@@ -1,7 +1,3 @@
-//
-// Created by bad_g on 2025/9/28.
-//
-
 #ifndef ESURFINGCLIENT_LOGGER_H
 #define ESURFINGCLIENT_LOGGER_H
 

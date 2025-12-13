@@ -1,7 +1,3 @@
-//
-// Created by bad_g on 2025/11/24.
-//
-
 #ifndef ESURFINGCLIENT_WEBSERVER_H
 #define ESURFINGCLIENT_WEBSERVER_H
 

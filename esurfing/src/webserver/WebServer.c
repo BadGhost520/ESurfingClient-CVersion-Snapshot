@@ -1,17 +1,15 @@
-//
-// Created by bad_g on 2025/11/24.
-//
 #include <stdio.h>
 
-#include "../headFiles/NetClient.h"
 #include "../headFiles/utils/PlatformUtils.h"
 #include "../headFiles/utils/CheckAdapters.h"
 #include "../headFiles/webserver/mongoose.h"
 #include "../headFiles/utils/Logger.h"
 #include "../headFiles/utils/cJSON.h"
+#include "../headFiles/NetClient.h"
 #include "../headFiles/Options.h"
 #include "../headFiles/States.h"
 
+// TODO 记得修改版本号
 #define VERSION "v2.1.0-r1"
 
 const char* listenAddr = "http://0.0.0.0:8888";

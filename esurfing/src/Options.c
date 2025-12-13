@@ -1,8 +1,6 @@
-//
-// Created by bad_g on 2025/9/27.
-//
+int isSmallDevice = 0;
+int isDebug = 0;
+
+char* chn = "phone";
 char* usr;
 char* pwd;
-char* chn = "phone";
-int isDebug = 0;
-int isSmallDevice = 0;
