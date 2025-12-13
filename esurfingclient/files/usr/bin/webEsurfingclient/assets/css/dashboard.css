@@ -1,0 +1,95 @@
+.device-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-left: 20px;
+}
+
+.device-title.short {
+    font-size: 16px;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+.device-content {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    div {
+        margin-bottom: 10px;
+        span {
+            margin-left: 10px;
+        }
+    }
+}
+
+.device-content.short {
+    margin: 15px;
+    font-size: 14px;
+}
+
+.device-content.adapter-info {
+    overflow-y: auto;
+}
+
+.device-network-container {
+    width: calc(50% - 30px);
+    height: 220px;
+    position: absolute;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    top: 70px;
+    left: 20px;
+}
+
+.device-network-container.short {
+    width: auto;
+    right: 20px;
+    height: 180px;
+    top: 55px;
+}
+
+.device-auth-container {
+    width: calc(50% - 30px);
+    height: 220px;
+    position: absolute;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    top: 70px;
+    right: 20px;
+}
+
+.device-auth-container.short {
+    width: auto;
+    height: 180px;
+    left: 20px;
+    top: 260px;
+}
+
+.device-adapter-container {
+    height: auto;
+    position: absolute;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    top: 310px;
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.device-adapter-container.short {
+    height: auto;
+    top: 465px;
+    left: 20px;
+}
+
+.adapter-info {
+    div {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        width: calc(100% - 40px);
+    }
+}
