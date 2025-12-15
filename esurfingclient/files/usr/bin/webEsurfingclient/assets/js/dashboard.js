@@ -96,7 +96,6 @@ async function getAdapterInfo() {
             const schoolNetworkStatus = document.getElementById('school-network-status');
             adapterInfo.innerHTML = '';
             let count = 1;
-            let height = 0;
             for (const adapter of data.adapters) {
                 if (adapter.name.includes('Virtual') || adapter.name.includes('docker')) continue;
                 if (adapter.ip.includes('172.19')) {

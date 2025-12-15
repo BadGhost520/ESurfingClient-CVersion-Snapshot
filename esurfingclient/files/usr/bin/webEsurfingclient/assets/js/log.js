@@ -26,10 +26,6 @@ async function updateLogs() {
         });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    setInterval(updateLogs, 1000);
-});
-
 const switchBorder = document.getElementById('switch-border');
 const switchBtn = document.getElementById('switch-circle');
 
@@ -37,4 +33,10 @@ switchBorder.addEventListener('click', () => {
     switchBorder.classList.toggle('switchon');
     switchBtn.classList.toggle('switchon');
     isScrollEnabled = !isScrollEnabled;
+});
+
+
+window.addEventListener('load', () => {
+    updateLogs();
+    setInterval(updateLogs, 1000);
 });

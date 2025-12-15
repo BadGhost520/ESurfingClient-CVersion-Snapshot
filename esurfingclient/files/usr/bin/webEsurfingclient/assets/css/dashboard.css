@@ -14,6 +14,7 @@
 .device-content {
     margin: 20px;
     display: flex;
+    overflow-x: auto;
     flex-direction: column;
     div {
         margin-bottom: 10px;
@@ -26,10 +27,6 @@
 .device-content.short {
     margin: 15px;
     font-size: 14px;
-}
-
-.device-content.adapter-info {
-    overflow-y: auto;
 }
 
 .device-network-container {
@@ -83,6 +80,7 @@
 }
 
 .adapter-info {
+    overflow-y: auto;
     div {
         display: flex;
         flex-direction: column;
@@ -94,11 +92,4 @@
             margin-bottom: 5px;
         }
     }
-}
-
-.placeholder {
-    position: absolute;
-    width: 100%;
-    height: 20px;
-    bottom: 0;
 }

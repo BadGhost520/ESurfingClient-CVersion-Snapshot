@@ -1,6 +1,5 @@
 .about-text {
     font-size: 18px;
-    font-family: 'JetBrainsMono', system-ui;
     line-height: 1.5;
     white-space: nowrap;
     overflow-x: hidden;
@@ -40,7 +39,6 @@
 }
 
 .license {
-    font-family: 'JetBrainsMono', serif;
     font-size: 14px;
     font-weight: normal;
     line-height: 1.4;

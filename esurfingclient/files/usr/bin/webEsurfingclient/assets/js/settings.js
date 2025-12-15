@@ -80,7 +80,10 @@ settingsModalBtn.addEventListener('click', () => {
 });
 
 document.addEventListener('click', e => {
-    if ((!modalContainer.contains(e.target) && !settingsModalBtn.contains(e.target) && settingsModal.classList.contains('modalact')) || cancelBtn.contains(e.target)) {
+    if ((!modalContainer.contains(e.target)
+        && !settingsModalBtn.contains(e.target)
+        && settingsModal.classList.contains('modalact'))
+        || cancelBtn.contains(e.target)) {
         settingsModal.classList.remove('modalact');
         resetModal();
     }
@@ -133,9 +136,11 @@ async function getSettings() {
 const settingsSubmitBtn = document.getElementById('settings-submit');
 
 async function updateSettings() {
+    const debugNum = debug.value === '1' ? 1 : 0;
+    const smallDeviceNum = smallDevice.value === '1' ? 1 : 0;
     await axios({
         method: 'post',
-        url: 'api/updateSettings',
+        url: '/api/updateSettings',
         timeout: 5000,
         headers: {
             'Content-Type': 'application/json'
@@ -143,31 +148,34 @@ async function updateSettings() {
         responseType: 'json',
         responseEncoding: 'utf-8',
         data: {
-            settings: {
-                username: usrInput.value,
-                password: pwdInput.value,
-                channel: chn.value,
-                debug: debug.value,
-                smallDevice: smallDevice.value
-            }
+            username: usrInput.value,
+            password: pwdInput.value,
+            channel: chn.value,
+            debug: debugNum,
+            smallDevice: smallDeviceNum
         }
     })
         .then(response => {
             if (response.status === 204) {
                 alert('设置已保存');
+            } else {
+                alert('设置保存失败');
             }
         })
         .catch(error => {
-            alert('设置保存失败');
             console.error(error);
         });
 }
 
 settingsSubmitBtn.addEventListener('click', () => {
+    if (usrInput.value === '' || pwdInput.value === '') {
+        alert('用户名或密码不能为空');
+        return;
+    }
     updateSettings();
     resetModal();
-    getSettings();
     settingsModal.classList.remove('modalact');
+    getSettings();
 });
 
 window.addEventListener('load', () => {

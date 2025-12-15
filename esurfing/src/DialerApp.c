@@ -16,6 +16,7 @@
 
 void restart()
 {
+    checkLogLevel();
     if (isInitialized)
     {
         if (isLogged) term();

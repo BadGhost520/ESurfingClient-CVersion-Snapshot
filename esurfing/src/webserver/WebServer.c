@@ -132,50 +132,37 @@ static void fn(struct mg_connection *c, const int ev, void *ev_data)
                 cJSON* jsonData = cJSON_Parse(body.buf);
                 if (jsonData)
                 {
-                    cJSON* settings = cJSON_GetObjectItem(jsonData, "settings");
-                    if (!settings)
+                    const cJSON* username = cJSON_GetObjectItem(jsonData, "username");
+                    const cJSON* password = cJSON_GetObjectItem(jsonData, "password");
+                    const cJSON* channel = cJSON_GetObjectItem(jsonData, "channel");
+                    const cJSON* debug = cJSON_GetObjectItem(jsonData, "debug");
+                    const cJSON* smallDevice = cJSON_GetObjectItem(jsonData, "smallDevice");
+                    if (username && cJSON_IsString(username))
                     {
-                        mg_http_reply(c,
-                            400,
-                            "Content-Type: text/plain;charset=utf-8\r\n",
-                            "设置更新失败");
-                        cJSON_Delete(jsonData);
+                        usr = strdup(username->valuestring);
                     }
-                    else
+                    if (password && cJSON_IsString(password))
                     {
-                        const cJSON* username = cJSON_GetObjectItem(settings, "username");
-                        const cJSON* password = cJSON_GetObjectItem(settings, "password");
-                        const cJSON* channel = cJSON_GetObjectItem(settings, "channel");
-                        const cJSON* debug = cJSON_GetObjectItem(settings, "debug");
-                        const cJSON* smallDevice = cJSON_GetObjectItem(settings, "smallDevice");
-                        if (username && cJSON_IsString(username))
-                        {
-                            usr = strdup(username->valuestring);
-                        }
-                        if (password && cJSON_IsString(password))
-                        {
-                            pwd = strdup(password->valuestring);
-                        }
-                        if (channel && cJSON_IsString(channel))
-                        {
-                            chn = strdup(channel->valuestring);
-                        }
-                        if (isDebug && cJSON_IsNumber(debug))
-                        {
-                            isDebug = debug->valueint;
-                        }
-                        if (smallDevice && cJSON_IsNumber(smallDevice))
-                        {
-                            isSmallDevice = smallDevice->valueint;
-                        }
-                        cJSON_Delete(settings);
-                        cJSON_Delete(jsonData);
-                        isSettingsChange = 1;
-                        mg_http_reply(c,
-                            204,
-                            "",
-                            "");
+                        pwd = strdup(password->valuestring);
                     }
+                    if (channel && cJSON_IsString(channel))
+                    {
+                        chn = strdup(channel->valuestring);
+                    }
+                    if (isDebug && cJSON_IsNumber(debug))
+                    {
+                        isDebug = debug->valueint;
+                    }
+                    if (smallDevice && cJSON_IsNumber(smallDevice))
+                    {
+                        isSmallDevice = smallDevice->valueint;
+                    }
+                    cJSON_Delete(jsonData);
+                    isSettingsChange = 1;
+                    mg_http_reply(c,
+                        204,
+                        "",
+                        "");
                 }
                 else
                 {

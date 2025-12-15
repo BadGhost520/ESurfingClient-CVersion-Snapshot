@@ -170,19 +170,19 @@ void run()
     case RequestSuccess:
         if (isInitialized && isLogged)
         {
-            long long keep_retry;
-            if (stringToLongLong(keepRetry, &keep_retry))
-            {
-                if (currentTimeMillis() - tick >= keep_retry * 1000)
-                {
-                    LOG_INFO("发送心跳包");
-                    heartbeat();
-                    LOG_INFO("下一次重试: %s 秒后", keepRetry);
-                    tick = currentTimeMillis();
-                }
-            }
-            else
-                LOG_ERROR("String 转 int64 失败");
+            // long long keep_retry;
+            // if (stringToLongLong(keepRetry, &keep_retry))
+            // {
+            //     if (currentTimeMillis() - tick >= keep_retry * 1000)
+            //     {
+            //         LOG_INFO("发送心跳包");
+            //         heartbeat();
+            //         LOG_INFO("下一次重试: %s 秒后", keepRetry);
+            //         tick = currentTimeMillis();
+            //     }
+            // }
+            // else
+            //     LOG_ERROR("String 转 int64 失败");
         }
         else
             LOG_INFO("网络已连接");
@@ -190,7 +190,7 @@ void run()
         break;
     case RequestAuthorization:
         LOG_INFO("需要认证");
-        authorization();
+        // authorization();
         sleepMilliseconds(1000);
         break;
     case RequestError:

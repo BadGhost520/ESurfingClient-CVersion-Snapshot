@@ -13,6 +13,7 @@ img {
 
 body {
     margin: 0;
+    font-family: "Microsoft YaHei", "SimHei";
     background-color: #FAFFFF;
 }
 
@@ -63,7 +64,6 @@ body {
 }
 
 .title-text {
-    font-family: "JetBrainsMono", system-ui;
     margin: auto 5px;
 }
 

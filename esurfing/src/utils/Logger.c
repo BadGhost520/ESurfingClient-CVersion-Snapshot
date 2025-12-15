@@ -172,6 +172,14 @@ int loggerInit()
     return 0;
 }
 
+void checkLogLevel()
+{
+    if (isDebug)
+        gLoggerConfig.level = LOG_LEVEL_DEBUG;
+    else
+        gLoggerConfig.level = LOG_LEVEL_INFO;
+}
+
 void loggerCleanup()
 {
     if (gLoggerConfig.fileHandle != NULL)

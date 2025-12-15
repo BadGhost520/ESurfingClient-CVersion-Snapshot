@@ -1,14 +1,20 @@
-fetch('assets/license/LICENSE.txt')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
+async function getLicense() {
+    await axios({
+        method: 'get',
+        url: 'assets/license/LICENSE.txt',
+        timeout: 5000,
+        responseType: 'text',
+        responseEncoding: 'utf-8'
     })
-    .then(text => {
-        document.getElementById('license').textContent = text;
-    })
-    .catch(error => {
-        console.error('Error loading file:', error);
-        document.getElementById('license').textContent = '无法加载声明文件';
-    });
+        .then(response => {
+            document.getElementById('license').textContent = response.data;
+        })
+        .catch(error => {
+            console.error(error);
+            document.getElementById('license').textContent = '无法加载声明文件';
+        });
+}
+
+window.addEventListener('load', () => {
+    getLicense();
+});

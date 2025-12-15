@@ -41,6 +41,11 @@ int loggerInit();
 void loggerCleanup();
 
 /**
+ * 检查日志输出等级
+ */
+void checkLogLevel();
+
+/**
  * 获取增量内存日志函数
  * @return 增量内存日志
  */
