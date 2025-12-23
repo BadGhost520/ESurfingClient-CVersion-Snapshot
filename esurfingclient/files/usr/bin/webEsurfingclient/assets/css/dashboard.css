@@ -1,95 +1,101 @@
-.device-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 15px;
-    margin-left: 20px;
+.card:hover {
+  transform: scale(1.01);
 }
 
-.device-title.short {
+#content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "network software"
+    "adapters adapters";
+  gap: 20px;
+  align-content: start;
+}
+
+.card.network:nth-child(1) {
+  grid-area: network;
+  height: 190px;
+}
+
+.card.software:nth-child(2) {
+  grid-area: software;
+  height: 190px;
+}
+
+.card.adapters {
+  grid-area: adapters;
+  height: auto;
+}
+
+.card-content {
+  margin-left: 5px;
+  display: flex;
+  overflow-x: auto;
+  flex-direction: column;
+  div {
+    margin-bottom: 10px;
+    span {
+      margin-left: 10px;
+    }
+  }
+}
+
+#adapter-info {
+  div {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 40px);
+    margin-bottom: 5px;
+    span {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  #content {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "network"
+      "software"
+      "adapters";
+    gap: 20px;
+    align-content: start;
+  }
+}
+
+@media (max-width: 768px) {
+  #content {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "network"
+      "software"
+      "adapters";
+    gap: 20px;
+    align-content: start;
+  }
+
+  .card.network:nth-child(1) {
+    grid-area: network;
+    height: 165px;
+  }
+
+  .card.software:nth-child(2) {
+    grid-area: software;
+    height: 165px;
+  }
+
+  .card-title {
     font-size: 16px;
-    margin-top: 15px;
-    margin-left: 15px;
-}
+  }
 
-.device-content {
-    margin: 20px;
-    display: flex;
-    overflow-x: auto;
-    flex-direction: column;
-    div {
-        margin-bottom: 10px;
-        span {
-            margin-left: 10px;
-        }
-    }
-}
-
-.device-content.short {
-    margin: 15px;
+  .card-content {
     font-size: 14px;
-}
-
-.device-network-container {
-    width: calc(50% - 30px);
-    height: 220px;
-    position: absolute;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    top: 70px;
-    left: 20px;
-}
-
-.device-network-container.short {
-    width: auto;
-    right: 20px;
-    height: 180px;
-    top: 55px;
-}
-
-.device-auth-container {
-    width: calc(50% - 30px);
-    height: 220px;
-    position: absolute;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    top: 70px;
-    right: 20px;
-}
-
-.device-auth-container.short {
-    width: auto;
-    height: 180px;
-    left: 20px;
-    top: 260px;
-}
-
-.device-adapter-container {
-    position: absolute;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    top: 310px;
-    right: 20px;
-    left: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.device-adapter-container.short {
-    top: 465px;
-    left: 20px;
-}
-
-.adapter-info {
-    overflow-y: auto;
-    div {
-        display: flex;
-        flex-direction: column;
-        width: calc(100% - 40px);
-        margin-top: 5px;
-        margin-bottom: 5px;
-        span {
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-    }
+  }
 }

@@ -1,209 +1,120 @@
 <!DOCTYPE html>
 <html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/basic.css" />
+    <link rel="stylesheet" href="assets/css/sidebar.css" />
+    <link rel="stylesheet" href="assets/css/dashboard.css" />
+    <link rel="stylesheet" href="assets/css/log.css" />
+    <link rel="stylesheet" href="assets/css/settings.css" />
+    <link rel="stylesheet" href="assets/css/about.css" />
+    <title id="title">加载中...</title>
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/basic.css">
-    <link rel="stylesheet" href="assets/css/sidebar.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css">
-    <link rel="stylesheet" href="assets/css/log.css">
-    <link rel="stylesheet" href="assets/css/settings.css">
-    <link rel="stylesheet" href="assets/css/about.css">
-    <title id="title">加载中</title>
-</head>
-
-<body>
-    <div id="main" class="main">
-        <!-- 导航栏 -->
-        <div id="sidebar" class="sidebar">
-            <div id="sidebar-logo" class="sidebar-logo">
-                <div class="sidebar-text">ESurfingClient</div>
+  <body>
+      <!-- 日志 -->
+      <div id="log-content" class="content">
+        <div class="title">
+          <div class="title-left">
+            <div class="blueblock"></div>
+            <div class="title-text">日志</div>
+          </div>
+          <div class="switch-container">
+            <div id="switch-border" class="switch-border">
+              <div id="switch-circle" class="switch-circle"></div>
             </div>
-            <hr>
-            <div id="short-switch" class="short-switch">
-                <img class="short-switch-icon" src="assets/vector/更多列表.png" alt="更多列表">
-            </div>
-            <div id="sidebar-navs" class="sidebar-navs">
-                <div id="dashboard" class="nav"><img class="nav-icon" src="assets/vector/仪表板.png" alt="仪表板">仪表板</div>
-                <div id="log" class="nav"><img class="nav-icon" src="assets/vector/系统日志.png" alt="日志">日志</div>
-                <div id="settings" class="nav"><img class="nav-icon" src="assets/vector/设置.png" alt="设置">设置</div>
-                <div id="about" class="nav"><img class="nav-icon" src="assets/vector/关于.png" alt="关于">关于</div>
-            </div>
+            <div class="switch-text">日志自动滚动</div>
+          </div>
         </div>
-        <!-- 内容面板 -->
-        <!-- 主页 -->
-        <div id="dashboard-content" class="content">
-            <div class="title">
-                <div class="title-left">
-                    <div class="blueblock"></div>
-                    <div class="title-text">仪表板</div>
-                </div>
-            </div>
-            <div class="device-network-container">
-                <div class="device-title">网络状态</div>
-                <div class="device-content">
-                    <div>
-                        <span>校园网状态: </span>
-                        <span id="school-network-status">未知</span>
-                    </div>
-                    <div>
-                        <span>联网状态: </span>
-                        <span id="network-status">未知</span>
-                    </div>
-                    <div>
-                        <span>联网时长: </span>
-                        <span id="connect-time">未知</span>
-                    </div>
-                    <div>
-                        <span>当前时间: </span>
-                        <span id="current-time">未知</span>
-                    </div>
-                </div>
-            </div>
-            <div class="device-auth-container">
-                <div class="device-title">软件状态</div>
-                <div class="device-content">
-                    <div>
-                        <span>运行状态: </span>
-                        <span id="running-status">未知</span>
-                    </div>
-                    <div>
-                        <span>认证状态: </span>
-                        <span id="auth-status">未知</span>
-                    </div>
-                    <div>
-                        <span>认证时长: </span>
-                        <span id="auth-time">未知</span>
-                    </div>
-                    <div>
-                        <span>软件版本: </span>
-                        <span id="version">未知</span>
-                    </div>
-                </div>
-            </div>
-            <div class="device-adapter-container">
-                <div class="device-title">网络适配器状态</div>
-                <div id="adapter-info" class="device-content adapter-info">
-                    <div>
-                        <span>未知</span>
-                    </div>
-                </div>
-            </div>
+        <div class="log-scrollbox">
+          <div id="logs" class="logs">无日志输出</div>
         </div>
-        <!-- 日志 -->
-        <div id="log-content" class="content">
-            <div class="title">
-                <div class="title-left">
-                    <div class="blueblock"></div>
-                    <div class="title-text">日志</div>
-                </div>
-                <div class="switch-container">
-                    <div id="switch-border" class="switch-border">
-                        <div id="switch-circle" class="switch-circle"></div>
-                    </div>
-                    <div class="switch-text">日志自动滚动</div>
-                </div>
-            </div>
-            <div class="log-scrollbox">
-                <div id="logs" class="logs">无日志输出</div>
-            </div>
+      </div>
+      <!-- 设置 -->
+      <div id="settings-content" class="content">
+        <div class="title">
+          <div class="title-left">
+            <div class="blueblock"></div>
+            <div class="title-text">设置</div>
+          </div>
         </div>
-        <!-- 设置 -->
-        <div id="settings-content" class="content">
-            <div class="title">
-                <div class="title-left">
-                    <div class="blueblock"></div>
-                    <div class="title-text">设置</div>
-                </div>
-            </div>
-            <div>
-                <div class="form-group readonly-group">
-                    <label for="static-usr">用户名</label>
-                    <input id="static-usr" type="text" value="未知" readonly>
-                </div>
-                <div class="form-group readonly-group">
-                    <label for="static-pwd">密码</label>
-                    <input id="static-pwd" type="password" value="未知" readonly>
-                </div>
-                <div class="form-group radio-group">
-                    <label>认证通道</label>
-                    <div id="static-chn-pc" class="choose-btn static">PC</div>
-                    <div id="static-chn-phone" class="choose-btn static">Phone</div>
-                </div>
-                <div class="form-group radio-group">
-                    <label>调试模式</label>
-                    <div id="static-debug-on" class="choose-btn static">开启</div>
-                    <div id="static-debug-off" class="choose-btn static">关闭</div>
-                </div>
-                <div class="form-group radio-group">
-                    <label>小容量设备模式</label>
-                    <div id="static-small-on" class="choose-btn static">开启</div>
-                    <div id="static-small-off" class="choose-btn static">关闭</div>
-                </div>
-            </div>
-            <div id="settings-change-btn" class="settings-change-btn">更改设置</div>
+        <div>
+          <div class="form-group readonly-group">
+            <label for="static-usr">用户名</label>
+            <input id="static-usr" type="text" value="未知" readonly />
+          </div>
+          <div class="form-group readonly-group">
+            <label for="static-pwd">密码</label>
+            <input id="static-pwd" type="password" value="未知" readonly />
+          </div>
+          <div class="form-group radio-group">
+            <label>认证通道</label>
+            <div id="static-chn-pc" class="choose-btn static">PC</div>
+            <div id="static-chn-phone" class="choose-btn static">Phone</div>
+          </div>
+          <div class="form-group radio-group">
+            <label>调试模式</label>
+            <div id="static-debug-on" class="choose-btn static">开启</div>
+            <div id="static-debug-off" class="choose-btn static">关闭</div>
+          </div>
+          <div class="form-group radio-group">
+            <label>小容量设备模式</label>
+            <div id="static-small-on" class="choose-btn static">开启</div>
+            <div id="static-small-off" class="choose-btn static">关闭</div>
+          </div>
         </div>
-        <div id="settings-modal" class="modal">
-            <div id="settings-modal-container" class="settings-modal-container">
-                <div class="modal-title">更改设置</div>
-                <form id="settings-form">
-                    <div class="form-group">
-                        <label for="usr">用户名</label>
-                        <input id="usr" type="text" name="username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="pwd">密码</label>
-                        <input id="pwd" type="password" name="password" required>
-                    </div>
-                    <div class="form-group radio-group">
-                        <label>认证通道</label>
-                        <input id="chn" type="hidden" name="channel" value="phone">
-                        <div id="channel-pc" class="choose-btn">PC</div>
-                        <div id="channel-phone" class="choose-btn btnon">Phone</div>
-                    </div>
-                    <div class="form-group radio-group">
-                        <label>调试模式</label>
-                        <input id="debug" type="hidden" name="debug" value="0">
-                        <div id="isDebug-on" class="choose-btn">开启</div>
-                        <div id="isDebug-off" class="choose-btn btnon">关闭</div>
-                    </div>
-                    <div class="form-group radio-group">
-                        <label>小容量设备模式</label>
-                        <input id="smallDevice" type="hidden" name="smallDevice" value="0">
-                        <div id="isSmallDevice-on" class="choose-btn">开启</div>
-                        <div id="isSmallDevice-off" class="choose-btn btnon">关闭</div>
-                    </div>
-                </form>
-                <div class="modal-btns">
-                    <div id="settings-cancel" class="choose-btn">取消</div>
-                    <div id="settings-submit" class="choose-btn btnon">确定</div>
-                </div>
+        <div id="settings-change-btn" class="settings-change-btn">更改设置</div>
+      </div>
+      <div id="settings-modal" class="modal">
+        <div id="settings-modal-container" class="settings-modal-container">
+          <div class="modal-title">更改设置</div>
+          <form id="settings-form">
+            <div class="form-group">
+              <label for="usr">用户名</label>
+              <input id="usr" type="text" name="username" required />
             </div>
+            <div class="form-group">
+              <label for="pwd">密码</label>
+              <input id="pwd" type="password" name="password" required />
+            </div>
+            <div class="form-group radio-group">
+              <label>认证通道</label>
+              <input id="chn" type="hidden" name="channel" value="phone" />
+              <div id="channel-pc" class="choose-btn">PC</div>
+              <div id="channel-phone" class="choose-btn btnon">Phone</div>
+            </div>
+            <div class="form-group radio-group">
+              <label>调试模式</label>
+              <input id="debug" type="hidden" name="debug" value="0" />
+              <div id="isDebug-on" class="choose-btn">开启</div>
+              <div id="isDebug-off" class="choose-btn btnon">关闭</div>
+            </div>
+            <div class="form-group radio-group">
+              <label>小容量设备模式</label>
+              <input
+                id="smallDevice"
+                type="hidden"
+                name="smallDevice"
+                value="0"
+              />
+              <div id="isSmallDevice-on" class="choose-btn">开启</div>
+              <div id="isSmallDevice-off" class="choose-btn btnon">关闭</div>
+            </div>
+          </form>
+          <div class="modal-btns">
+            <div id="settings-cancel" class="choose-btn">取消</div>
+            <div id="settings-submit" class="choose-btn btnon">确定</div>
+          </div>
         </div>
-        <!-- 关于 -->
-        <div id="about-content" class="content">
-            <div class="title">
-                <div class="title-left">
-                    <div class="blueblock"></div>
-                    <div class="title-text">关于 ESurfingClient</div>
-                </div>
-            </div>
-            <div class="about-text">
-                <div>Copyright © 2025 BadGhost</div>
-                <div>GitHub 项目地址: <a href="https://github.com/BadGhost520/ESurfingClient-CVersion">[传送门]</a></div>
-            </div>
-            <div class="about-license-scrollbox">
-                <div id="license" class="license"></div>
-            </div>
-        </div>
-    </div>
+      </div>
+      <!-- 关于 -->
+      
     <script src="assets/js/basic.js"></script>
-    <script src="assets/js/dashboard.js"></script>
+    <!-- <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/log.js"></script>
     <script src="assets/js/settings.js"></script>
-    <script src="assets/js/about.js"></script>
-    <script src="assets/export-js/axios.min.js"></script>
-</body>
-
+    <script src="assets/js/about.js"></script> -->
+    <script src="assets/import-js/axios.min.js"></script>
+  </body>
 </html>
