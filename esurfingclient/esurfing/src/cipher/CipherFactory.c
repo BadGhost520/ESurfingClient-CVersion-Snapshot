@@ -1,28 +1,12 @@
 #include "cipher/CipherInterface.h"
 
-#include "cipher/impl/mod_xtea_cbc_triple_pc.h"
-#include "cipher/impl/des_ecb_six_pc.h"
-#include "cipher/impl/desede_cbc_pc.h"
-#include "cipher/impl/mod_xtea_pc.h"
-#include "cipher/impl/aes_cbc_pc.h"
-#include "cipher/impl/aes_ecb_pc.h"
-
-#include "cipher/impl/mod_xtea_iv.h"
-#include "cipher/impl/desede_cbc.h"
-#include "cipher/impl/desede_ecb.h"
-#include "cipher/impl/mod_xtea.h"
-#include "cipher/impl/aes_cbc.h"
-#include "cipher/impl/aes_ecb.h"
-#include "cipher/impl/sm4_cbc.h"
-#include "cipher/impl/sm4_ecb.h"
-#include "cipher/impl/zuc.h"
-
 #include "cipher/KeyData.h"
 #include "utils/Logger.h"
-#include "States.h"
 
 #include <stdlib.h>
 #include <string.h>
+
+cipher_interface_t* cipher = NULL;
 
 static cipher_interface_t* create_cipher_factory(const char* algo_id)
 {
@@ -181,7 +165,6 @@ static cipher_interface_t* create_cipher_factory(const char* algo_id)
 
 void destroy_cipher_factory()
 {
-    cipher_interface_t* cipher = g_prog_status[thread_idx].auth_cfg.cipher;
     if (cipher == NULL)
     {
         LOG_DEBUG("cipher 已经是 NULL, 无需销毁");
@@ -194,7 +177,6 @@ void destroy_cipher_factory()
     }
     LOG_DEBUG("销毁加解密工厂");
     cipher->destroy(cipher);
-    g_prog_status[thread_idx].auth_cfg.cipher = NULL;
     cipher = NULL;
     LOG_DEBUG("销毁完成");
 }
@@ -202,7 +184,6 @@ void destroy_cipher_factory()
 bool init_cipher(const char* algo_id)
 {
     LOG_DEBUG("开始初始化加解密工厂");
-    cipher_interface_t* cipher = NULL;
     LOG_VERBOSE("创建加解密工厂, 使用 algo_id: %s", algo_id);
     cipher = create_cipher_factory(algo_id);
     if (cipher == NULL)
@@ -210,7 +191,6 @@ bool init_cipher(const char* algo_id)
         LOG_ERROR("初始化加密工厂失败");
         return false;
     }
-    g_prog_status[thread_idx].auth_cfg.cipher = cipher;
     LOG_DEBUG("初始化加解密工厂成功");
     return true;
 }
@@ -218,13 +198,11 @@ bool init_cipher(const char* algo_id)
 char* session_encrypt(const char* text)
 {
     LOG_VERBOSE("要加密的文本:\n%s", text);
-    cipher_interface_t* cipher = g_prog_status[thread_idx].auth_cfg.cipher;
     return cipher->encrypt(cipher, text);
 }
 
 char* session_decrypt(const char* text)
 {
     LOG_VERBOSE("要解密的文本:\n%s", text);
-    cipher_interface_t* cipher = g_prog_status[thread_idx].auth_cfg.cipher;
     return cipher->decrypt(cipher, text);
 }

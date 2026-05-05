@@ -104,12 +104,6 @@ static bool get_log_dir(char* out)
     return true;
 }
 
-static void write_2_console(const char* msg)
-{
-    printf("%s", msg);
-    fflush(stdout);
-}
-
 static void write_2_file(const char* msg)
 {
     if (s_logger_cfg.file_handle)
@@ -117,20 +111,6 @@ static void write_2_file(const char* msg)
         fprintf(s_logger_cfg.file_handle, "%s", msg);
         fflush(s_logger_cfg.file_handle);
     }
-}
-
-static char* get_thread_str()
-{
-    for (uint8_t i = 0; i < g_prog_cnt; i++)
-    {
-        if (sim_thread_cur_id() == g_prog_status[i].thread_id)
-        {
-            static char str[4];
-            snprintf(str, sizeof(str), "%" PRIu8, i);
-            return str;
-        }
-    }
-    return "Main";
 }
 
 void log_out(const LogLevel level, const char* file, const uint32_t line, const char* fmt, ...)
@@ -150,15 +130,12 @@ void log_out(const LogLevel level, const char* file, const uint32_t line, const 
     vsnprintf(msg, sizeof(msg), fmt, local_args);
     va_end(local_args);
     snprintf(final_msg, sizeof(final_msg),
-        "[%s] [TID %" PRIu64 "] [T-%s] [%s] [%s:%d] %s\n",
+        "[%s] [%s] [%s:%d] %s\n",
         safe_str(ts),
-        sim_thread_cur_id(),
-        get_thread_str(),
         get_level_str(level),
         strrchr(file, '/') ? strrchr(file, '/') + 1 : strrchr(file, '\\') ? strrchr(file, '\\') + 1 : file,
         line,
         safe_str(msg));
-    write_2_console(final_msg);
     write_2_file(final_msg);
     s_logger_cfg.cur_lines++;
     rotate();
