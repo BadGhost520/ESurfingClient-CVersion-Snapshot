@@ -1,12 +1,9 @@
 // #include "webserver/WebServer.h"
 #include "utils/Shutdown.h"
 #include "utils/Logger.h"
-#include "States.h"
 
 #include <signal.h>
 #include <stdlib.h>
-
-#include "NetClient.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -15,19 +12,6 @@
 void shut(const uint8_t exitCode)
 {
     LOG_INFO("主程序正在关闭");
-    // if (is_webserver_running) stopWebServer();
-    LOG_INFO("关闭线程守护");
-    thread_keep_alive = false;
-    LOG_INFO("清理资源中");
-    LOG_DEBUG("关闭线程");
-    for (uint8_t i = 0; i < g_prog_cnt; i++)
-    {
-        int result_code = 0;
-        g_prog_status[i].runtime_status.is_running = false;
-        sim_thread_join(g_prog_status[i].thread, &result_code);
-        LOG_DEBUG("线程退出, 退出码: %d", result_code);
-    }
-    LOG_INFO("退出程序");
     clean_logger();
     exit(exitCode);
 }

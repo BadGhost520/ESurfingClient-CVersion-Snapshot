@@ -19,7 +19,7 @@ static const char s_file_name[] = "run.log";
 static const char s_rotate_file_name[] = ".rotate.log";
 
 static log_cfg_t s_logger_cfg = {
-    .lv = LOG_LEVEL_INFO,
+    .lv = LOG_LEVEL_VERBOSE,
     .log_dir = "",
     .log_file = "",
     .file_handle = NULL,

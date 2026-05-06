@@ -1,23 +1,6 @@
 #ifndef CIPHER_INTERFACE_H
 #define CIPHER_INTERFACE_H
 
-#include "cipher/impl/mod_xtea_cbc_triple_pc.h"
-#include "cipher/impl/des_ecb_six_pc.h"
-#include "cipher/impl/desede_cbc_pc.h"
-#include "cipher/impl/mod_xtea_pc.h"
-#include "cipher/impl/aes_cbc_pc.h"
-#include "cipher/impl/aes_ecb_pc.h"
-
-#include "cipher/impl/mod_xtea_iv.h"
-#include "cipher/impl/desede_cbc.h"
-#include "cipher/impl/desede_ecb.h"
-#include "cipher/impl/mod_xtea.h"
-#include "cipher/impl/aes_cbc.h"
-#include "cipher/impl/aes_ecb.h"
-#include "cipher/impl/sm4_cbc.h"
-#include "cipher/impl/sm4_ecb.h"
-#include "cipher/impl/zuc.h"
-
 #include <stdbool.h>
 
 typedef struct cipherInterface {

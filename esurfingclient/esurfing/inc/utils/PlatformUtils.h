@@ -1,9 +1,8 @@
 #ifndef PLATFORMUTILS_H
 #define PLATFORMUTILS_H
 
-#include "States.h"
-
 #include <inttypes.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 #ifdef _WIN32
