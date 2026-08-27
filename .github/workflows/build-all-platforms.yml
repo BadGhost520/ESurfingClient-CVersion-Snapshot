@@ -47,7 +47,7 @@ jobs:
       openwrt_ipk_sdk_version: ${{ env.OPENWRT_IPK_SDK_VERSION }}
       openwrt_apk_sdk_version: ${{ env.OPENWRT_APK_SDK_VERSION }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: 获取版本号
         id: version
         run: |
