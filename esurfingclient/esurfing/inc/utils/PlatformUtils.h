@@ -1,15 +1,18 @@
-#ifndef PLATFORMUTILS_H
-#define PLATFORMUTILS_H
+#ifndef ESURFINGCLIENT_PLATFORMUTILS_H
+#define ESURFINGCLIENT_PLATFORMUTILS_H
+
+#include "States.h"
 
 #include <inttypes.h>
-#include <stdbool.h>
 #include <stdint.h>
 
 #ifdef _WIN32
 
-#pragma comment(lib, "IPHLPAPI.lib")
+#define SEP '\\'
 
 #else
+
+#define SEP '/'
 
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -26,8 +29,7 @@
 #endif
 
 #define XML_BUFFER_SIZE 1024
-#define DIALER_CONFIG_FILE "ESurfingClient.json"
-#define NAME_LENGTH 128
+#define NAME_LENGTH 256
 
 typedef enum
 {
@@ -50,6 +52,19 @@ typedef struct
 } bytes_t;
 
 /**
+ * @brief 打包适配器数据
+ * @return JSON 文本
+ */
+char* get_adapters_json();
+
+/**
+ * @brief 获取程序运行目录
+ * @param dir_array 目录指针
+ * @return 是否获取成功
+ */
+bool get_exec_dir(char* dir_array);
+
+/**
  * @brief XML 解析
  * @param xml_data XML 数据
  * @param tag 提取标志
@@ -62,21 +77,21 @@ char* xml_parser(const char* xml_data, const char* tag);
  * @param str 文本数据
  * @return 字节数据
  */
-bytes_t str_2_bytes(const char* str);
+bytes_t str2bytes(const char* str);
 
 /**
  * @brief 字符串转换为 64 位长整型
  * @param str 要转换的字符串
  * @return 转换后的 64 位长整型
  */
-uint64_t str_2_uint64(const char* str);
+uint64_t str2uint64(const char* str);
 
 /**
  * @brief 64 位长整型转换为字符串
  * @param num 要转换的 64 位长整型
  * @return 转换后的字符串
  */
-char* uint64_2_str(uint64_t num);
+char* uint642str(uint64_t num);
 
 /**
  * @brief 获取当前时间的毫秒时间戳
@@ -94,8 +109,9 @@ void get_rand_bytes(uint8_t* buf, size_t len);
 /**
  * @brief 睡眠
  * @param ms 毫秒
+ * @param can_stop 能否被打断
  */
-void sleep_ms(uint64_t ms);
+void sleep_ms(uint64_t ms, bool can_stop);
 
 /**
  * @brief 获取当前时间
@@ -136,12 +152,13 @@ char* clean_CDATA(const char* text);
 
 /**
  * @brief 保存配置文件
+ * @param configs_str 配置文件字符串
  */
-// bool save_cfg();
+bool save_cfg(char* configs_str);
 
 /**
  * @brief 加载配置文件
  */
 bool load_cfg();
 
-#endif // PLATFORMUTILS_H
+#endif // ESURFINGCLIENT_PLATFORMUTILS_H

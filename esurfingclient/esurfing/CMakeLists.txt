@@ -50,29 +50,36 @@ find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
 
 add_executable(ESurfingClient
-        src/cipher/impl/mod_xtea_cbc_triple_pc.c
-        src/cipher/impl/des_ecb_six_pc.c
-        src/cipher/impl/desede_cbc_pc.c
-        src/cipher/impl/mod_xtea_pc.c
-        src/cipher/impl/mod_xtea_iv.c
-        src/cipher/impl/aes_ecb_pc.c
-        src/cipher/impl/aes_cbc_pc.c
-        src/cipher/impl/desede_ecb.c
-        src/cipher/impl/desede_cbc.c
-        src/cipher/impl/mod_xtea.c
-        src/cipher/impl/sm4_ecb.c
-        src/cipher/impl/sm4_cbc.c
-        src/cipher/impl/aes_ecb.c
-        src/cipher/impl/aes_cbc.c
-        src/cipher/impl/zuc.c
+        src/cipher/algo/android/aes_double_cbc_android.c
+        src/cipher/algo/android/aes_double_ecb_android.c
+        src/cipher/algo/android/des_ecb_six_android.c
+        src/cipher/algo/android/desede_double_cbc_android.c
+        src/cipher/algo/android/sm4_variant_cbc_android.c
+        src/cipher/algo/android/sm4_variant_ecb_android.c
+        src/cipher/algo/android/snow3g_variant_android.c
+        src/cipher/algo/android/tea_triple_cbc_android.c
+        src/cipher/algo/android/tea_triple_ecb_android.c
+        src/cipher/algo/linux/mod_xtea_cbc_triple_linux.c
+        src/cipher/algo/linux/des_ecb_six_linux.c
+        src/cipher/algo/linux/desede_cbc_linux.c
+        src/cipher/algo/linux/mod_xtea_linux.c
+        src/cipher/algo/linux/aes_ecb_linux.c
+        src/cipher/algo/linux/aes_cbc_linux.c
         src/cipher/CipherFactory.c
         src/cipher/CipherUtils.c
         src/cipher/KeyData.c
-#        src/webserver/WebServer.c
-#        src/webserver/mongoose.c
+        src/webserver/WebServer.c
+        src/webserver/mongoose.c
         src/utils/PlatformUtils.c
+        src/utils/SimProcess.c
+        src/utils/SimThread.c
         src/utils/Shutdown.c
+        src/utils/Service.c
         src/utils/Logger.c
+        src/utils/cJSON.c
+        src/DialerClient.c
+        src/NetClient.c
+        src/States.c
         Main.c
 )
 
@@ -80,45 +87,20 @@ target_include_directories(ESurfingClient PRIVATE
         ${CMAKE_SOURCE_DIR}/inc
 )
 
-if (WIN32)
-    target_link_libraries(ESurfingClient PRIVATE
-            CURL::libcurl
-            OpenSSL::Crypto
-            ws2_32
-            wldap32
-            winmm
-            crypt32
-            normaliz
-            secur32
-            bcrypt
-            iphlpapi
-    )
-else ()
-    target_link_libraries(ESurfingClient PRIVATE
-            CURL::libcurl
-            OpenSSL::Crypto
-            pthread
-            dl
-            atomic
-    )
-    if (__OPENWRT__)
-        target_link_libraries(ESurfingClient PRIVATE
-                OpenSSL::SSL
-        )
-    else ()
-        target_link_libraries(ESurfingClient PRIVATE
-                z
-                m
-                zstd
-        )
-    endif ()
-endif ()
+target_link_libraries(ESurfingClient PRIVATE
+        CURL::libcurl
+        OpenSSL::Crypto
+        ws2_32
+        wldap32
+        winmm
+        crypt32
+        normaliz
+        secur32
+        bcrypt
+        iphlpapi
+)
 
 target_compile_options(ESurfingClient PRIVATE -Os)
-
-if (UNIX AND NOT WIN32)
-    target_compile_options(ESurfingClient PRIVATE -Wall -Wextra -Wno-unused-parameter)
-endif ()
 
 set_target_properties(ESurfingClient PROPERTIES LINK_FLAGS "-Wl,--strip-all")
 
